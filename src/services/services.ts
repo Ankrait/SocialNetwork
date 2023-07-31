@@ -33,14 +33,16 @@ import {
 // const baseURL = 'http://localhost:3011/';
 const baseURL = 'http://109.172.82.167:3000/';
 
+axios.defaults.baseURL = baseURL;
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
 export const authService = {
   getAuth: async () => {
     let id = cookie.getCookie('id');
     let token = cookie.getCookie('token');
 
-    const response = await axios.get<IAuthData[]>(
-      baseURL + `auth?id=${id}&_limit=1`,
-    );
+    const response = await axios.get<IAuthData[]>(`auth?id=${id}&_limit=1`);
 
     return response.data[0].token !== token
       ? ({ id: -1 } as IAuthData)
@@ -48,15 +50,14 @@ export const authService = {
   },
   login: async ({ email, password, rememberMe = false }: ILoginParams) => {
     const response = await axios.get<IAuthData[]>(
-      baseURL + `auth?email=${email}&password=${await sha256(password)}`,
+      `auth?email=${email}&password=${await sha256(password)}`,
     );
 
     if (response.data[0]) {
       const token = cookie.createToken();
-      const auth = await axios.patch<IAuthData>(
-        baseURL + `auth/${response.data[0].id}`,
-        { token },
-      );
+      const auth = await axios.patch<IAuthData>(`auth/${response.data[0].id}`, {
+        token,
+      });
       const delay = rememberMe ? 3600 * 24 * 30 : 3600 * 24;
 
       cookie.setCookie('token', token, delay);
@@ -67,34 +68,29 @@ export const authService = {
   },
   logout: async () => {
     const response = await axios.get<IAuthData[]>(
-      baseURL + `auth?id=${cookie.getCookie('id')}`,
+      `auth?id=${cookie.getCookie('id')}`,
     );
-    const auth = await axios.patch<IAuthData>(
-      baseURL + `auth/${response.data[0].id}`,
-      { token: '' },
-    );
+    const auth = await axios.patch<IAuthData>(`auth/${response.data[0].id}`, {
+      token: '',
+    });
     cookie.deleteCookie('token');
     return auth.data;
   },
   register: async (params: IRegisterParams) => {
     const { age, fullName, name, email, login, password } = params;
 
-    const check_email = await axios.get<IAuthData[]>(
-      baseURL + `auth?email=${email}`,
-    );
+    const check_email = await axios.get<IAuthData[]>(`auth?email=${email}`);
 
     if (check_email.data.length > 0) {
       return 'This email is already registered';
     }
 
-    const check_login = await axios.get<IAuthData[]>(
-      baseURL + `auth?login=${login}`,
-    );
+    const check_login = await axios.get<IAuthData[]>(`auth?login=${login}`);
     if (check_login.data.length > 0) {
       return 'This login is already registered';
     }
 
-    const profile = await axios.post<IProfile>(baseURL + `users`, {
+    const profile = await axios.post<IProfile>(`users`, {
       fullName,
       name,
       age,
@@ -106,7 +102,7 @@ export const authService = {
       photoURL: '',
     });
 
-    await axios.post<IAuthData>(baseURL + `auth`, {
+    await axios.post<IAuthData>(`auth`, {
       id: profile.data.id,
       email,
       login,
@@ -115,17 +111,17 @@ export const authService = {
       main_color: '#AFDAFC',
     });
 
-    const totalCount = await axios.get<ITotalCount>(baseURL + `totalCount`);
+    const totalCount = await axios.get<ITotalCount>(`totalCount`);
 
     if (totalCount)
-      await axios.patch<ITotalCount>(baseURL + `totalCount`, {
+      await axios.patch<ITotalCount>(`totalCount`, {
         value: totalCount.data.value + 1,
       });
 
     return true;
   },
   setColor: async ({ authID, main_color }: ISetColor) => {
-    const response = await axios.patch<IAuthData>(baseURL + `auth/${authID}`, {
+    const response = await axios.patch<IAuthData>(`auth/${authID}`, {
       main_color,
     });
 
@@ -136,12 +132,12 @@ export const authService = {
 export const usersService = {
   getUsers: async (currentPage = 1, pageSize = 4) => {
     const response = await axios.get<IProfile[]>(
-      baseURL + `users?_page=${currentPage}&_limit=${pageSize}`,
+      `users?_page=${currentPage}&_limit=${pageSize}`,
     );
     return response.data;
   },
   getTotalUsersCount: async () => {
-    const response = await axios.get<ITotalCount>(baseURL + `totalCount`);
+    const response = await axios.get<ITotalCount>(`totalCount`);
     return response.data.value;
   },
   getFollows: async (authID = 0, userID = 0) => {
@@ -153,10 +149,10 @@ export const usersService = {
   },
   deleteFollow: async ({ authID, userID }: IIdsParams) => {
     const data = await axios.get<IFollowed[]>(
-      baseURL + `followed?authID=${authID}&userID=${userID}`,
+      `followed?authID=${authID}&userID=${userID}`,
     );
     const response = await axios.delete<IFollowed>(
-      baseURL + `followed/${data.data[0].id}`,
+      `followed/${data.data[0].id}`,
     );
 
     if (response.status === 200) {
@@ -166,7 +162,7 @@ export const usersService = {
     }
   },
   postFollow: async ({ authID, userID }: IIdsParams) => {
-    const response = await axios.post<IFollowed>(baseURL + `followed`, {
+    const response = await axios.post<IFollowed>(`followed`, {
       authID,
       userID,
     });
@@ -177,10 +173,10 @@ export const usersService = {
 export const messagesService = {
   getMessages: async ({ authID, withID }: IGetMesParams) => {
     const fromMessages = await axios.get<IMessage[]>(
-      baseURL + `messages?fromID=${authID}&withID=${withID}`,
+      `messages?fromID=${authID}&withID=${withID}`,
     );
     const toMessages = await axios.get<IMessage[]>(
-      baseURL + `messages?fromID=${withID}&withID=${authID}`,
+      `messages?fromID=${withID}&withID=${authID}`,
     );
 
     let allMessages: IMessage[] = Array.prototype
@@ -193,7 +189,7 @@ export const messagesService = {
     else return [];
   },
   setMessage: async ({ authID, withID, message }: ISetMesParams) => {
-    const response = await axios.post<IMessage>(baseURL + `messages`, {
+    const response = await axios.post<IMessage>(`messages`, {
       fromID: authID,
       withID,
       message,
@@ -202,7 +198,7 @@ export const messagesService = {
     return response.data;
   },
   deleteMessage: async (id: number) => {
-    const response = await axios.delete(baseURL + `messages/${id}`);
+    const response = await axios.delete(`messages/${id}`);
 
     if (response.status === 200) {
       return id;
@@ -212,11 +208,9 @@ export const messagesService = {
   },
   getDialogs: async (authID: number) => {
     const fromMessages = await axios.get<IMessage[]>(
-      baseURL + `messages?fromID=${authID}`,
+      `messages?fromID=${authID}`,
     );
-    const toMessages = await axios.get<IMessage[]>(
-      baseURL + `messages?withID=${authID}`,
-    );
+    const toMessages = await axios.get<IMessage[]>(`messages?withID=${authID}`);
 
     let dialogs: number[] = Array.prototype
       .concat(
@@ -228,7 +222,7 @@ export const messagesService = {
     if (dialogs.length === 0) return [];
 
     const { data } = await axios.get<IReducedUser[]>(
-      baseURL + `users?id=${dialogs.join('&id=')}`,
+      `users?id=${dialogs.join('&id=')}`,
     );
 
     let response: IReducedUser[] = [];
@@ -244,32 +238,28 @@ export const messagesService = {
 export const profileService = {
   getUserByID: async (userID = 0) => {
     const id = userID !== 0 ? userID : 1;
-    const response = await axios.get<IProfile[]>(
-      baseURL + `users?id=${id}&_limit=1`,
-    );
+    const response = await axios.get<IProfile[]>(`users?id=${id}&_limit=1`);
     return response.data[0];
   },
   updateStatus: async ({ authID, status }: IUpdateStatusParams) => {
-    const response = await axios.patch<IProfile>(baseURL + `users/${authID}`, {
+    const response = await axios.patch<IProfile>(`users/${authID}`, {
       status,
     });
     return response.data.status;
   },
   saveProfileInfoAPI: async ({ authID, data }: ISaveProfileInfo) => {
-    const response = await axios.patch<IProfile>(baseURL + `users/${authID}`, {
+    const response = await axios.patch<IProfile>(`users/${authID}`, {
       ...data,
     });
     return response.data;
   },
   getPosts: async (userID: number) => {
-    const response = await axios.get<IPost[]>(
-      baseURL + `posts?userID=${userID}`,
-    );
+    const response = await axios.get<IPost[]>(`posts?userID=${userID}`);
 
     return response.data;
   },
   setPost: async ({ message, img_link, userID }: ISetPostParams) => {
-    const response = await axios.post<IPost>(baseURL + `posts`, {
+    const response = await axios.post<IPost>(`posts`, {
       userID,
       message,
       img_link,
@@ -280,7 +270,7 @@ export const profileService = {
     return response.data;
   },
   removePost: async (id: number) => {
-    const response = await axios.delete(baseURL + `posts/${id}`);
+    const response = await axios.delete(`posts/${id}`);
 
     if (response.status === 200) {
       return id;
@@ -290,7 +280,7 @@ export const profileService = {
   },
   getFollow: async ({ userID, authID }: IGetFollowParams) => {
     const response = await axios.get<IFollowed[]>(
-      baseURL + `followed?authID=${authID}&userID=${userID}`,
+      `followed?authID=${authID}&userID=${userID}`,
     );
 
     if (response.data.length > 0) {
@@ -317,7 +307,7 @@ export const subServices = {
     );
 
     const response = await axios.get<IReducedUser[]>(
-      baseURL + `users?id=${users.join('&id=')}`,
+      `users?id=${users.join('&id=')}`,
     );
 
     return response.data;
@@ -326,19 +316,17 @@ export const subServices = {
 
 export const likesServices = {
   getUserLikes: async (userID: number) => {
-    const response = await axios.get<ILikes[]>(
-      baseURL + `likes?userID=${userID}`,
-    );
+    const response = await axios.get<ILikes[]>(`likes?userID=${userID}`);
 
     return response.data;
   },
   setLike: async ({ postID, userID, likesCount }: ISetLikesParams) => {
-    const response = await axios.post<ILikes>(baseURL + `likes`, {
+    const response = await axios.post<ILikes>(`likes`, {
       postID,
       userID,
     });
 
-    await axios.patch(baseURL + `posts/${postID}`, {
+    await axios.patch(`posts/${postID}`, {
       likes: likesCount + 1,
     });
 
@@ -346,11 +334,11 @@ export const likesServices = {
   },
   deleteLike: async ({ postID, userID, likesCount }: ISetLikesParams) => {
     const { data } = await axios.get<ILikes[]>(
-      baseURL + `likes?postID=${postID}&userID=${userID}`,
+      `likes?postID=${postID}&userID=${userID}`,
     );
-    const response = await axios.delete(baseURL + `likes/${data[0].id}`);
+    const response = await axios.delete(`likes/${data[0].id}`);
 
-    await axios.patch(baseURL + `posts/${postID}`, {
+    await axios.patch(`posts/${postID}`, {
       likes: likesCount - 1,
     });
 
