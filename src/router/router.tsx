@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createHashRouter } from 'react-router-dom';
 import App from '../App';
 import Messages from '../pages/Messages/Messages';
 import Profile from '../pages/Profile/Profile';
@@ -10,7 +10,7 @@ import Sub from '../pages/Sub/Sub';
 import Settings from 'pages/Settings/Settings';
 import Register from 'pages/Register/Register';
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: <App />,
