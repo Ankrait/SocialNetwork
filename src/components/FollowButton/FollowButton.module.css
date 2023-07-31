@@ -1,0 +1,35 @@
+.button {
+	width: 100%;
+	max-width: 100px;
+
+	padding: 8px 15px;
+	border-radius: 15px;
+	font-size: 16px;
+	font-weight: 500;
+
+	background: transparent;
+	transition: background 0.3s ease;
+
+	color: #111;
+	background: #ff5959;
+}
+
+.button:hover {
+	background: #ff5959d0;
+}
+
+.follow {
+	background: #3abe66;
+}
+
+.follow:hover {
+	background: #3abe66d0;
+}
+
+.button:disabled {
+	cursor: default;
+	background: #5a5a5a;
+	color: black;
+	text-decoration: line-through;
+	opacity: 0.8;
+}

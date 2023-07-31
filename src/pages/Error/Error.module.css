@@ -1,0 +1,36 @@
+.wrapper {
+	height: 100vh;
+	color: rgb(19, 19, 19);
+	font-size: 20px;
+	margin: 0 auto;
+	text-align: center;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	font-weight: 500;
+}
+
+.wrapper a {
+	color: #d14753;
+	position: relative;
+}
+
+.wrapper a:before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	height: 2px;
+	width: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	transition: width 0.2s ease-in-out;
+	background: #d14753;
+}
+
+.wrapper a:hover::before {
+	color: #d14753;
+	width: 100%;
+}

@@ -1,0 +1,28 @@
+.wrapper {
+    height: calc(100vh - 180px);
+    display: flex;
+    flex-direction: column;
+}
+
+.body {
+    height: calc(100% - 145px);
+    display: flex;
+    gap: 30px;
+    flex: 1 1 auto;
+}
+
+.title {
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 15px 0;
+}
+
+@media only screen and (max-width: 910px) {
+    .body {
+        gap: 15px;
+    }
+
+    .title {
+        margin: 0 0 7px 0;
+    }
+}

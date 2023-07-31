@@ -1,0 +1,25 @@
+.form {
+	max-width: 400px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: auto;
+
+	padding: 15px 0;
+}
+
+.form__btn {
+	margin-top: 15px;
+}
+
+.link {
+	color: #111;
+	font-size: 14px;
+	transition: color .3s;
+	text-align: center;
+}
+
+.link:hover {
+	color: #a3888d;
+}

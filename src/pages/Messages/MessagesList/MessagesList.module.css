@@ -1,0 +1,76 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	gap: 20px;
+	flex: 1 1 auto;
+}
+
+.dialog_wrapper {
+	border-bottom: 1px solid #111;
+	display: flex;
+	align-items: center;
+	gap: 30px;
+}
+
+.dialog {
+	cursor: pointer;
+	display: inline-flex;
+	width: min-content;
+	align-items: center;
+	gap: 20px;
+
+	color: #111;
+	padding-bottom: 5px;
+}
+
+.dialog_image {
+	flex: 0 0 40px;
+	width: 40px;
+	height: 40px;
+}
+
+.messages {
+	overflow: auto;
+	flex: 1 1 auto;
+}
+
+.empty {
+	margin: 0 0 80px 0;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: center;
+	justify-content: center;
+}
+
+.empty img {
+	flex: 0 0 60px;
+	width: 60px;
+	height: 60px;
+	object-fit: contain;
+}
+
+.loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1 1 auto;
+}
+
+.dialogs_open {
+	display: none;
+	width: 30px;
+}
+
+.dialogs_open {
+	display: none;
+	width: 30px;
+}
+
+@media only screen and (max-width: 600px) {
+	.dialogs_open {
+		display: block;
+	}
+}

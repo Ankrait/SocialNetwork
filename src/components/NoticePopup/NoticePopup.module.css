@@ -1,0 +1,37 @@
+.wrapper {
+	cursor: pointer;
+	position: fixed;
+	top: 30px;
+	left: 50%;
+	transform: translateX(-50%);
+
+	color: #111111;
+	font-weight: 500;
+	box-shadow: 0 0 20px -13px #111111;
+	padding: 15px 20px;
+
+	border-radius: 24px;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	max-width: 500px;
+}
+
+.icon {
+	flex: 0 0 24px;
+}
+
+.error {
+	background: #e70045;
+}
+
+.success {
+	background: #07aa14;
+}
+
+@media only screen and (max-width: 768px) {
+	.wrapper {
+		top: 120px;
+	}
+
+}

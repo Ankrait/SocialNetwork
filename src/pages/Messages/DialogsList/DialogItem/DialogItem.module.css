@@ -1,0 +1,70 @@
+.dialog {
+	padding: 5px 7px;
+	cursor: pointer;
+
+	display: grid;
+	grid-template-columns: 50px 1fr 20px;
+
+	gap: 10px;
+	align-items: center;
+	border-radius: 10px;
+
+	transition: background 0.2s ease-in-out;
+}
+
+.dialog:hover {
+	background: rgb(230, 230, 230);
+}
+
+.dialog._active {
+	background: #E4717A;
+}
+
+.image {
+	flex: 0 0 35px;
+	width: 35px;
+	height: 35px;
+}
+
+.name {
+	flex: 1 1 auto;
+	overflow: hidden;
+}
+
+.extra_action {
+	opacity: 0;
+	cursor: pointer;
+
+	align-self: stretch;
+
+	display: flex;
+	align-items: center;
+	justify-content: end;
+	gap: 3px;
+	text-align: center;
+
+	font-size: 24px;
+
+	transition: opacity 0.3s ease;
+}
+
+.extra_action>span {
+	pointer-events: none;
+
+	display: block;
+	flex: 0 0 4px;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: #111;
+}
+
+.dialog:hover .extra_action {
+	opacity: 1;
+}
+
+@media only screen and (max-width: 910px) {
+	.name {
+		font-size: 16px;
+	}
+}

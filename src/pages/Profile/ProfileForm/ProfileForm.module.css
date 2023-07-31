@@ -1,0 +1,64 @@
+.back {
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.377);
+}
+
+.wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    height: 80vh;
+    max-width: 700px;
+    width: 100%;
+
+    background: #fcfcfc;
+    box-shadow: 0 0 30px -10px #000;
+    border-radius: 20px;
+
+    overflow-y: scroll;
+    padding: 40px 60px;
+
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+.wrapper::-webkit-scrollbar {
+    width: 0;
+}
+
+.form {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
+}
+
+.buttons {
+    margin: 20px 0 0 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    flex: 0 0 49%;
+}
+
+.closebtn {
+    cursor: pointer;
+    position: absolute;
+    font-size: 18px;
+    top: 30px;
+    right: 30px;
+    left: auto;
+}
+
+.click_disabled {
+    pointer-events: none;
+    cursor: default;
+}

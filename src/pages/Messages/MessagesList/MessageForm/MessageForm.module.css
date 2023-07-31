@@ -1,0 +1,63 @@
+.textarea {
+	flex: 0 0 auto;
+	position: relative;
+	grid-area: textarea;
+	overflow: hidden;
+}
+
+.textareaInput {
+	margin: 0;
+}
+
+.btn {
+	background: transparent;
+	cursor: pointer;
+	width: 30px;
+	height: 100%;
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	height: 30px;
+}
+
+.btn span {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translate(0, -50%);
+	width: 30px;
+	height: 2px;
+	background: #000;
+	border-radius: 20px;
+}
+
+.btn span::before {
+	content: "";
+	position: absolute;
+	width: 12px;
+	height: 2px;
+	background: #000;
+	top: calc(50% - 3px);
+	right: 0;
+	transform: translateY(-50%) rotate(30deg);
+	border-radius: 20px;
+}
+
+.btn span::after {
+	content: "";
+	position: absolute;
+	width: 12px;
+	height: 2px;
+	background: #000;
+	top: calc(50% + 3px);
+	right: 0;
+	transform: translateY(-50%) rotate(-30deg);
+	border-radius: 20px;
+}
+
+@media only screen and (max-width: 910px) {
+	.textareaInput {
+		font-size: 14px;
+	}
+}

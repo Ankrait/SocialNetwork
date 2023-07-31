@@ -1,0 +1,35 @@
+.button {
+	padding: 8px 15px;
+	border-radius: 10px;
+	font-size: 16px;
+	font-weight: 500;
+
+	background: transparent;
+	transition: background 0.3s ease;
+
+	color: #111;
+}
+
+.primary {
+	background: #3a78be;
+}
+
+.primary:hover {
+	background: #3a78beb4;
+}
+
+.danger {
+	background: #df4747;
+}
+
+.danger:hover {
+	background: #df4747d0;
+}
+
+.disabled,
+.button:disabled {
+	cursor: default;
+	background: #5a5a5a;
+	color: black;
+	opacity: 0.8;
+}
