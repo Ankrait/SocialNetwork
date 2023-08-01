@@ -31,11 +31,9 @@ import {
 } from './servicesTypes';
 
 // const baseURL = 'http://localhost:3011/';
-const baseURL = 'http://109.172.82.167:3000/';
+const baseURL = 'https://socnetserver-az1kgo.b4a.run/';
 
 axios.defaults.baseURL = baseURL;
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
 export const authService = {
   getAuth: async () => {
