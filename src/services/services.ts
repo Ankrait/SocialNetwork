@@ -34,6 +34,9 @@ import {
 const baseURL = 'https://socnetserver-az1kgo.b4a.run/';
 
 axios.defaults.baseURL = baseURL;
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+axios.defaults.withCredentials = false;
 
 export const authService = {
   getAuth: async () => {
