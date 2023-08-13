@@ -30,8 +30,8 @@ import {
   IProfile,
 } from './servicesTypes';
 
-// const baseURL = 'http://localhost:3011/';
-const baseURL = 'https://socnetserver-az1kgo.b4a.run/';
+const baseURL = 'http://localhost:3011/';
+// const baseURL = 'https://socnetserver-az1kgo.b4a.run/';
 
 axios.defaults.baseURL = baseURL;
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';

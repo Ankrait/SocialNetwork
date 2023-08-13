@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'common/hooks';
 import { useParams, useNavigate, Link } from 'react-router-dom';
@@ -18,14 +18,14 @@ interface IMessagesList {
 }
 
 const MessagesList: FC<IMessagesList> = ({ setMobileDialogsOpen }) => {
-  const { messagesData, dialogsData, withID } = useAppSelector(
-    state => state.messages,
-  );
+  const { messagesData, dialogsData, withID, isNewMessageSending } =
+    useAppSelector(state => state.messages);
   const { loading } = useAppSelector(state => state.app);
   const authID = useAppSelector(state => state.auth.userID)!;
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const messagesBottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     return () => {
@@ -34,6 +34,7 @@ const MessagesList: FC<IMessagesList> = ({ setMobileDialogsOpen }) => {
   }, []);
 
   useEffect(() => {
+    dispatch(clearMessages());
     if (!withID) setMobileDialogsOpen(true);
     if (!withID || !authID) return;
 
@@ -46,9 +47,13 @@ const MessagesList: FC<IMessagesList> = ({ setMobileDialogsOpen }) => {
     if (id) dispatch(setWithID(+id));
   }, [id]);
 
+  useEffect(() => {
+    messagesBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messagesData]);
+
   const dialogUser = dialogsData.find(dialog => dialog.id === withID);
 
-  if (loading) {
+  if (loading && !isNewMessageSending) {
     return (
       <div className={style.loading}>
         <LoaderCircular />
@@ -84,6 +89,7 @@ const MessagesList: FC<IMessagesList> = ({ setMobileDialogsOpen }) => {
             ) : (
               <div style={{ textAlign: 'center' }}>The dialog is empty</div>
             )}
+            <div ref={messagesBottomRef}></div>
           </div>
           <MessageForm />
         </>

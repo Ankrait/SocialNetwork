@@ -44,7 +44,6 @@ export const messagesSlice = createSlice({
         state.isNewMessageSending = true;
       })
       .addCase(addMes.fulfilled, (state, action) => {
-        state.messagesData.push(action.payload);
         state.isNewMessageSending = false;
       })
       .addCase(addMes.rejected, state => {
@@ -67,24 +66,23 @@ export const messagesSlice = createSlice({
 export const messagesReducer = messagesSlice.reducer;
 export const { setWithID, clearMessages } = messagesSlice.actions;
 
-export const addMes = createAsyncThunk<
-  IMessage,
-  ISetMesParams,
-  AsyncThunkConfig
->('messages/addMes', async (params, { rejectWithValue }) => {
-  try {
-    return await messagesService.setMessage(params);
-  } catch (error) {
-    return rejectWithValue('[addMes]: Error');
-  }
-});
+export const addMes = createAsyncThunk<void, ISetMesParams, AsyncThunkConfig>(
+  'messages/addMes',
+  async (params, { dispatch, rejectWithValue }) => {
+    try {
+      await messagesService.setMessage(params);
+      await dispatch(setMes({ authID: params.authID, withID: params.withID }));
+    } catch (error) {
+      return rejectWithValue('[addMes]: Error');
+    }
+  },
+);
 
 export const setMes = createAsyncThunk<
   IMessage[],
   IGetMesParams,
   AsyncThunkConfig
 >('messages/setMes', async (params, { dispatch, rejectWithValue }) => {
-  dispatch(clearMessages());
   dispatch(setLoading(true));
   try {
     return await messagesService.getMessages(params);

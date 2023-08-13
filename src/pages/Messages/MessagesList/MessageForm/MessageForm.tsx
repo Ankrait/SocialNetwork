@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, KeyboardEvent, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
 import { addMes, getDialogs } from '../../../../store/reducers/messagesSlice';
 import Input from 'components/Input/Input';
@@ -20,13 +20,19 @@ const MessageForm: FC = () => {
   };
 
   const onSubmit = async () => {
-    if (!withID || !authID || !message) return;
+    if (!withID || !authID || !message || isLoading) return;
 
     const actionResult = await dispatch(addMes({ authID, withID, message }));
 
     if (addMes.fulfilled.match(actionResult)) {
       setMessage('');
       dispatch(getDialogs(authID));
+    }
+  };
+
+  const onEnterPressed = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (!e.shiftKey && e.key === 'Enter') {
+      onSubmit();
     }
   };
 
@@ -38,7 +44,7 @@ const MessageForm: FC = () => {
         placeholder="mess..."
         value={message}
         className={style.textareaInput}
-        onKeyDown={e => !e.shiftKey && e.key === 'Enter' && onSubmit()}
+        onKeyDown={onEnterPressed}
       />
       <button onClick={onSubmit} className={style.btn}>
         {isLoading ? <LoaderCircular /> : <span></span>}

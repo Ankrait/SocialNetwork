@@ -26,6 +26,8 @@ const Profile: FC = (): JSX.Element => {
   useEffect(() => {
     let userID: number;
 
+    dispatch(clearProfile());
+
     if (id) {
       userID = +id;
     } else if (authID) {
@@ -62,7 +64,7 @@ const Profile: FC = (): JSX.Element => {
         ) : (
           <div className={style.empty}>
             <img src={cloudFace} alt="face" />
-            The user with this id not found
+            User with this id not found
           </div>
         )}
       </>

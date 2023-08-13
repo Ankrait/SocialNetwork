@@ -13,7 +13,7 @@ interface IAvatar {
 
 const Avatar: FC<IAvatar> = ({ wrapperClassName, className, photoSrc }) => {
   return (
-    <div className={cn(style.wrapper, wrapperClassName)}>
+    <div className={cn(wrapperClassName, style.wrapper)}>
       <img
         className={cn(style.avatar, className)}
         src={photoSrc && photoSrc !== '' ? photoSrc : userIcon}
