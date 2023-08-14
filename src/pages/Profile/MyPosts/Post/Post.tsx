@@ -12,18 +12,16 @@ import {
 import { deleteLike, setLike } from 'store/reducers/likesSlice';
 import LoaderCircular from '../../../../components/LoaderCircular/LoaderCircular';
 
-// @ts-ignore
-import userIcon from '../../../../assets/img/user.png';
 import { AiFillLike } from 'react-icons/ai';
 import { BiRepost } from 'react-icons/bi';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 
 import style from './Post.module.css';
+import Avatar from 'components/Avatar/Avatar';
 
 type PropsType = {
   userInfo: { userName: string; userPhoto: string | null };
   postData: IPost;
-  isOwner: boolean;
 };
 
 const Post: FC<PropsType> = ({ userInfo, postData }): JSX.Element => {
@@ -33,10 +31,10 @@ const Post: FC<PropsType> = ({ userInfo, postData }): JSX.Element => {
     state => state.likes,
   );
   const authID = useAppSelector(state => state.auth.userID);
-  const { postsActionStatus } = useAppSelector(state => state.profile);
+  const { postsActionStatus, isOwner } = useAppSelector(state => state.profile);
 
   const removePostHandler = (id: number): void => {
-    dispatch(removePost(id));
+    isOwner && dispatch(removePost(id));
   };
 
   const onLikeClick = () => {
@@ -65,9 +63,10 @@ const Post: FC<PropsType> = ({ userInfo, postData }): JSX.Element => {
   return (
     <div className={style.wrapper}>
       <div className={style.user}>
-        <div className={style.userImage}>
-          <img src={userInfo.userPhoto || userIcon} alt="User" />
-        </div>
+        <Avatar
+          photoSrc={userInfo.userPhoto}
+          wrapperClassName={style.userImage}
+        />
         <div className={style.userName}>{userInfo.userName}</div>
       </div>
       {postData.img_link ? (
@@ -92,17 +91,19 @@ const Post: FC<PropsType> = ({ userInfo, postData }): JSX.Element => {
           {postData.reposts}
         </div>
       </div>
-      <div className={style.removePost}>
-        {postsActionStatus === postsActionStatusEnum.Removing ? (
-          <LoaderCircular />
-        ) : (
-          <RiDeleteBin5Fill
-            onClick={() => removePostHandler(postData.id)}
-            size="20px"
-            color="#df4747"
-          />
-        )}
-      </div>
+      {isOwner && (
+        <div className={style.removePost}>
+          {postsActionStatus === postsActionStatusEnum.Removing ? (
+            <LoaderCircular />
+          ) : (
+            <RiDeleteBin5Fill
+              onClick={() => removePostHandler(postData.id)}
+              size="20px"
+              color="#df4747"
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };

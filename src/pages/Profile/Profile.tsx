@@ -2,7 +2,11 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
-import { clearProfile, setProfile } from '../../store/reducers/profileSlice';
+import {
+  clearProfile,
+  setIsOwner,
+  setProfile,
+} from '../../store/reducers/profileSlice';
 
 import cloudFace from '../../assets/img/face-in-clouds.png';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
@@ -11,6 +15,7 @@ import ProfileForm from './ProfileForm/ProfileForm';
 import LoaderCircular from '../../components/LoaderCircular/LoaderCircular';
 
 import style from './Profile.module.css';
+import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 
 const Profile: FC = (): JSX.Element => {
   const { id } = useParams();
@@ -18,9 +23,8 @@ const Profile: FC = (): JSX.Element => {
   const navigate = useNavigate();
   const loading = useAppSelector(state => state.app.loading);
   const authID = useAppSelector(state => state.auth.userID);
-  const profileInfo = useAppSelector(state => state.profile.profileInfo);
+  const { profileInfo, isOwner } = useAppSelector(state => state.profile);
 
-  const [isOwner, setIsOwner] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
@@ -47,7 +51,7 @@ const Profile: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    setIsOwner(authID === profileInfo?.id);
+    dispatch(setIsOwner(authID === profileInfo?.id));
   }, [profileInfo]);
 
   useEffect(() => {
@@ -62,10 +66,11 @@ const Profile: FC = (): JSX.Element => {
         {loading ? (
           <LoaderCircular className={style.loader} />
         ) : (
-          <div className={style.empty}>
-            <img src={cloudFace} alt="face" />
-            User with this id not found
-          </div>
+          <EmojiMessage
+            emojiSrc={cloudFace}
+            message="User with this id not found"
+            wrapperClassName={style.empty}
+          />
         )}
       </>
     );
@@ -73,13 +78,9 @@ const Profile: FC = (): JSX.Element => {
   return (
     <>
       <div>
-        <ProfileInfo
-          setEditMode={setEditMode}
-          isOwner={isOwner}
-          profileInfo={profileInfo}
-        />
+        <ProfileInfo setEditMode={setEditMode} profileInfo={profileInfo} />
 
-        <MyPosts isOwner={isOwner} />
+        <MyPosts />
       </div>
       {editMode && isOwner && (
         <ProfileForm

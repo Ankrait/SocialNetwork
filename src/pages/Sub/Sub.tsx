@@ -17,6 +17,7 @@ import LoaderCircular from '../../components/LoaderCircular/LoaderCircular';
 
 import faceIcon from '../../assets/img/face-with-monocle.png';
 import style from './Sub.module.css';
+import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 
 const Sub: FC = () => {
   const dispatch = useAppDispatch();
@@ -99,10 +100,11 @@ const Sub: FC = () => {
         </div>
       )}
       {!loading && users.length === 0 && (
-        <div className={style.center}>
-          <img src={faceIcon} alt="face icon" />
-          No {type}
-        </div>
+        <EmojiMessage
+          emojiSrc={faceIcon}
+          message={`No ${type}`}
+          wrapperClassName={style.empty}
+        />
       )}
     </div>
   );

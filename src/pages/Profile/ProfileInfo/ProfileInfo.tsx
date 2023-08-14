@@ -12,22 +12,19 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import { AiOutlineMessage } from 'react-icons/ai';
 
 import style from './ProfileInfo.module.css';
-import cn from 'classnames';
 
 type PropsType = {
   profileInfo: IProfile;
-  isOwner: boolean;
   setEditMode: (editMode: boolean) => void;
 };
 
 const ProfileInfo: FC<PropsType> = ({
   profileInfo,
-  isOwner,
   setEditMode,
 }): JSX.Element => {
   const navigate = useNavigate();
   const { isAuth, userID: authID } = useAppSelector(state => state.auth);
-  const { subscribersCount, subscriptionsCount } = useAppSelector(
+  const { subscribersCount, subscriptionsCount, isOwner } = useAppSelector(
     state => state.profile,
   );
 

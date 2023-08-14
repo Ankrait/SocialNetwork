@@ -12,14 +12,13 @@ import pensiveIcon from '../../../assets/img/pensive-face.png';
 import style from './MyPosts.module.css';
 import LoaderCircular from 'components/LoaderCircular/LoaderCircular';
 import { getLikes } from 'store/reducers/likesSlice';
+import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 
-type PropsType = {
-  isOwner: boolean;
-};
+type PropsType = {};
 
-const MyPosts: FC<PropsType> = ({ isOwner }) => {
+const MyPosts: FC<PropsType> = () => {
   const dispatch = useAppDispatch();
-  const { postsData, postsActionStatus } = useAppSelector(
+  const { postsData, postsActionStatus, isOwner } = useAppSelector(
     state => state.profile,
   );
   const {
@@ -50,21 +49,22 @@ const MyPosts: FC<PropsType> = ({ isOwner }) => {
                     key={data.id}
                     userInfo={{ userName: name, userPhoto: photoURL }}
                     postData={data}
-                    isOwner={isOwner}
                   />
                 );
               })
           ) : (
-            <div className={style.empty}>
+            <>
               {postsActionStatus === postsActionStatusEnum.Loading ? (
-                <LoaderCircular />
+                <div className={style.loader}>
+                  <LoaderCircular />
+                </div>
               ) : (
-                <>
-                  <img src={pensiveIcon} alt="icon" />
-                  There are no posts yet
-                </>
+                <EmojiMessage
+                  emojiSrc={pensiveIcon}
+                  message="There are no posts yet"
+                />
               )}
-            </div>
+            </>
           )}
         </div>
       </>

@@ -39,7 +39,7 @@
     {
       "id": 4,
       "fullName": "Fayzrakhmanovasdasda",
-      "name": "Azatt asdasdasdasdas",
+      "name": "Azatt",
       "age": 22,
       "status": "Front-end",
       "location": {
@@ -881,6 +881,14 @@
       "likes": 1,
       "reposts": 0,
       "id": 2
+    },
+    {
+      "userID": 2,
+      "message": "фывфыв",
+      "img_link": "",
+      "likes": 0,
+      "reposts": 0,
+      "id": 3
     }
   ],
   "likes": [

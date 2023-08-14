@@ -8,21 +8,8 @@
 	margin: 0 0 15px 0;
 }
 
-.center {
+.empty {
 	margin: 40px auto;
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 10px;
-	font-size: 20px;
-}
-
-.center img {
-	flex: 0 0 60px;
-	width: 60px;
-	height: 60px;
-	object-fit: contain;
 }
 
 .list {

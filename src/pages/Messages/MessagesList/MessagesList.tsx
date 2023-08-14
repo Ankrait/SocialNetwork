@@ -12,6 +12,7 @@ import { clearMessages, setMes, setWithID } from 'store/reducers/messagesSlice';
 import style from './MessagesList.module.css';
 import Avatar from 'components/Avatar/Avatar';
 import LoaderCircular from 'components/LoaderCircular/LoaderCircular';
+import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 
 interface IMessagesList {
   setMobileDialogsOpen: (value: boolean) => void;
@@ -94,10 +95,11 @@ const MessagesList: FC<IMessagesList> = ({ setMobileDialogsOpen }) => {
           <MessageForm />
         </>
       ) : (
-        <div className={style.empty}>
-          <img src={pointLeft} alt="icon" />
-          Choose dialog
-        </div>
+        <EmojiMessage
+          emojiSrc={pointLeft}
+          message="Choose dialog"
+          wrapperClassName={style.empty}
+        />
       )}
     </div>
   );

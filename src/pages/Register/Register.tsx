@@ -7,6 +7,7 @@ import RegisterForm from './RegisterForm/RegisterForm';
 import faceIcon from '../../assets/img/smiling-face.png';
 
 import style from './Register.module.css';
+import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 
 const Register: FC = () => {
   const [isRegisterCompleted, setRegisterCompleted] = useState(false);
@@ -19,19 +20,24 @@ const Register: FC = () => {
     }
   }, [isAuth]);
 
+  const completeMessage = (
+    <>
+      You have successfully registered. <br /> Now you can{' '}
+      <Link className={style.link} to="/login">
+        login
+      </Link>
+    </>
+  );
+
   return (
     <div className={style.wrapper}>
       <div className={style.title}>Registration</div>
       {isRegisterCompleted ? (
-        <div className={style.complete_message}>
-          <img src={faceIcon} alt="face" />
-          <div>
-            You have successfully registered. <br /> Now you can{' '}
-            <Link className={style.link} to="/login">
-              login
-            </Link>
-          </div>
-        </div>
+        <EmojiMessage
+          emojiSrc={faceIcon}
+          wrapperClassName={style.complete_message}
+          message={completeMessage}
+        />
       ) : (
         <RegisterForm
           registerCompleteHandler={() => setRegisterCompleted(true)}

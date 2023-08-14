@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   IPost,
   IProfile,
@@ -20,6 +20,7 @@ export enum postsActionStatusEnum {
 
 interface IProfileInitialState {
   profileInfo: IProfile | null;
+  isOwner: boolean;
   subscribersCount: number;
   subscriptionsCount: number;
   postsData: IPost[] | null;
@@ -28,6 +29,7 @@ interface IProfileInitialState {
 
 const initialState: IProfileInitialState = {
   profileInfo: null,
+  isOwner: false,
   subscribersCount: 0,
   subscriptionsCount: 0,
   postsData: null,
@@ -41,6 +43,9 @@ export const profileSlice = createSlice({
     clearProfile: state => {
       state.postsData = null;
       state.profileInfo = null;
+    },
+    setIsOwner: (state, action: PayloadAction<boolean>) => {
+      state.isOwner = action.payload;
     },
   },
   extraReducers: builder => {
@@ -132,7 +137,7 @@ export const profileSlice = createSlice({
 });
 
 export const profileReducer = profileSlice.reducer;
-export const { clearProfile } = profileSlice.actions;
+export const { clearProfile, setIsOwner } = profileSlice.actions;
 
 export type SetProfileParamsType = {
   authID: number | null;
