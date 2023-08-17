@@ -1,13 +1,13 @@
 import React, { FC, useLayoutEffect, useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'common/hooks';
 
+import { useAppSelector } from 'common/hooks';
 import RegisterForm from './RegisterForm/RegisterForm';
 import faceIcon from '../../assets/img/smiling-face.png';
+import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 
 import style from './Register.module.css';
-import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 
 const Register: FC = () => {
   const [isRegisterCompleted, setRegisterCompleted] = useState(false);

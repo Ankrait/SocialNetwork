@@ -1,133 +1,137 @@
 .wrapper {
-	position: relative;
+  position: relative;
 }
 
 .title {
-	font-weight: 500;
-	font-size: 22px;
-	margin: 0 0 15px 0;
+  margin: 0 0 15px 0;
+  font-size: 22px;
+  font-weight: 500;
 }
 
 .empty {
-	margin: 40px auto;
+  margin: 40px auto;
 }
 
 .list {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .item {
-	flex: 1 1 30%;
-	display: flex;
-	align-items: center;
-	gap: 15px;
+  display: flex;
+  flex: 1 1 30%;
+  gap: 15px;
+  align-items: center;
 
-	border-radius: 10px;
-	border: 1px solid rgb(168, 165, 165);
-	padding: 10px;
+  padding: 10px;
+
+  border: 1px solid rgb(168, 165, 165);
+  border-radius: 10px;
 }
 
 .avatar {
-	width: 50px;
-	height: 50px;
-	flex: 0 0 50px;
+  flex: 0 0 50px;
+  width: 50px;
+  height: 50px;
 }
 
 .name {
-	color: #111;
-	transition: color 0.3s ease;
-	text-decoration: underline;
+  color: #111;
+  text-decoration: underline;
+  transition: color 0.3s ease;
 }
 
 .name:hover {
-	color: #E4717A;
-	text-decoration: underline;
+  color: #E4717A;
+  text-decoration: underline;
 }
 
 .back_button {
-	position: absolute;
-	top: 0;
-	left: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 
-	background: transparent;
-	padding: 10px 0;
+  padding: 10px 0;
 
-	font-size: 18px;
+  font-size: 18px;
+
+  background: transparent;
 }
 
 .back_button:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .buttons_wrapper {
-	margin: 0 0 15px 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 15px 0;
 }
 
 .button {
-	padding: 10px 15px;
-	background: transparent;
-	color: #7ac0f7;
-	font-size: 18px;
-	border: 1px solid #7ac0f7;
+  padding: 10px 15px;
+
+  font-size: 18px;
+  color: #7AC0F7;
+
+  background: transparent;
+  border: 1px solid #7AC0F7;
 }
 
 .button:first-child {
-	border-bottom-left-radius: 15px;
-	border-top-left-radius: 15px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 
 .button:last-child {
-	border-bottom-right-radius: 15px;
-	border-top-right-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 .button._active {
-	background: #7ac0f7;
-	color: #fcfcfc;
+  color: #FCFCFC;
+  background: #7AC0F7;
 }
 
 .follow_button_wrapper {
-	flex: 1 1 auto;
-	display: flex;
-	justify-content: flex-end;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-end;
 }
 
 @media only screen and (max-width: 800px) {
-	.back_button {
-		padding: 11px 0;
-		font-size: 16px;
-	}
+  .back_button {
+    padding: 11px 0;
+    font-size: 16px;
+  }
 }
 
 @media only screen and (max-width: 570px) {
-	.back_button {
-		padding: 0;
-	}
+  .back_button {
+    padding: 0;
+  }
 
-	.wrapper {
-		padding-top: 30px;
-	}
+  .wrapper {
+    padding-top: 30px;
+  }
 }
 
 @media only screen and (max-width: 480px) {
-	.list {
-		gap: 10px;
-		flex-wrap: nowrap;
-		flex-direction: column;
-	}
+  .list {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
 
-	.item {
-		flex: 1 1 auto;
-		display: grid;
-		grid-template-columns: min-content 1fr;
-	}
+  .item {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    flex: 1 1 auto;
+  }
 
-	.name {
-		grid-area: 1 / 1 / 1 / span 2;
-	}
+  .name {
+    grid-area: 1 / 1 / 1 / span 2;
+  }
 }

@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
-import cn from 'classnames';
 
+import cn from 'classnames';
 import { useAppSelector, useAppDispatch } from '../../../common/hooks';
 import { GrClose } from 'react-icons/gr';
 

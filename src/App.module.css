@@ -1,0 +1,45 @@
+.wrapper {
+  overflow: hidden;
+  min-height: 100%;
+  margin-left: calc(100vw - 100%);
+  padding: 30px 20px;
+}
+
+.wrapper__container {
+  position: relative;
+
+  overflow: hidden;
+  display: grid;
+  grid-template: 70px 1fr / 180px 1fr;
+  grid-template-areas:
+    "h h"
+    "m c";
+  gap: 10px;
+
+  max-width: 1230px;
+  margin: 0 auto;
+  padding: 10px 20px;
+
+  background: #FCFCFC;
+  border-radius: 10px;
+  box-shadow: 0 0 35px -10px #111111;
+}
+
+.content {
+  grid-area: c;
+  min-height: calc(100vh - 160px);
+  border-radius: 5px;
+}
+
+@media only screen and (max-width: 768px) {
+  .wrapper__container {
+    display: block;
+    padding: 80px 20px 10px 20px;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .wrapper {
+    padding: 15px;
+  }
+}

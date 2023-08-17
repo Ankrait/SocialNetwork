@@ -1,11 +1,12 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { usersService } from '../../services/services';
+
 import {
   AsyncThunkConfig,
   IFollowed,
   IProfile,
   IIdsParams,
 } from '../../services/servicesTypes';
+import { usersService } from '../../services/services';
 
 interface IUsersInitialState {
   users: IProfile[];
@@ -23,56 +24,53 @@ const initialState: IUsersInitialState = {
   followingInProgress: [],
 };
 
+export interface IFollowInProgressParams {
+  userID: number;
+  isFetching: boolean;
+}
+
 export const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
     setFollowingInProgress: (
       state,
-      action: PayloadAction<FollowInProgressPayloadType>
+      action: PayloadAction<IFollowInProgressParams>,
     ) => {
       state.followingInProgress = action.payload.isFetching
         ? [...state.followingInProgress, action.payload.userID]
-        : state.followingInProgress.filter(
-            (id) => id !== action.payload.userID
-          );
+        : state.followingInProgress.filter(id => id !== action.payload.userID);
     },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(
-        requestUsers.fulfilled,
-        (state, { payload: { dataUsers, dataFollows, count } }) => {
-          state.users = dataUsers.map((user) => {
-            let tmp_followed = false;
+      .addCase(requestUsers.fulfilled, (state, action) => {
+        const { dataUsers, dataFollows, count } = { ...action.payload };
 
-            dataFollows.forEach((followEl) => {
-              if (user.id === followEl.userID) {
-                tmp_followed = true;
-              }
-            });
+        state.users = dataUsers.map(user => {
+          if (dataFollows.findIndex(el => el.userID === user.id) !== -1) {
+            return { ...user, followed: true };
+          }
+          return user;
+        });
 
-            if (tmp_followed) return { ...user, followed: true };
-            return user;
-          });
-          state.totalCount = count;
-        }
-      )
+        state.totalCount = count;
+      })
       .addCase(follow.fulfilled, (state, action) => {
-        state.users = state.users.map((user) => {
+        state.users = state.users.map(user => {
           if (user.id === action.payload.userID) {
-            user.followed = true;
+            return { ...user, followed: true };
           }
           return user;
         });
       })
       .addCase(unfollow.fulfilled, (state, action) => {
-        state.users = state.users.map((user) => {
+        state.users = state.users.map(user => {
           if (user.id === action.payload.userID) {
-            user.followed = false;
+            return { ...user, followed: false };
           }
           return user;
         });
@@ -83,24 +81,20 @@ export const usersSlice = createSlice({
 export const usersReducer = usersSlice.reducer;
 export const { setFollowingInProgress, setCurrentPage } = usersSlice.actions;
 
-export type RequestUsersParamsType = {
+export interface IRequestUsersParams {
   currentPage: number;
   pageSize: number;
   authID: number | null;
-};
-export type RequestUsersResponseType = {
+}
+export interface IRequestUsersResponse {
   dataUsers: IProfile[];
   dataFollows: IFollowed[];
   count: number;
-};
-export type FollowInProgressPayloadType = {
-  userID: number;
-  isFetching: boolean;
-};
+}
 
 export const requestUsers = createAsyncThunk<
-  RequestUsersResponseType,
-  RequestUsersParamsType,
+  IRequestUsersResponse,
+  IRequestUsersParams,
   AsyncThunkConfig
 >(
   'users/requestUsers',
@@ -114,14 +108,14 @@ export const requestUsers = createAsyncThunk<
     } catch (error) {
       return rejectWithValue('[requestUsers]: Error');
     }
-  }
+  },
 );
 
 export const follow = createAsyncThunk<IFollowed, IIdsParams, AsyncThunkConfig>(
   'users/follow',
   async (params, { dispatch, rejectWithValue }) => {
     dispatch(
-      setFollowingInProgress({ isFetching: true, userID: params.userID })
+      setFollowingInProgress({ isFetching: true, userID: params.userID }),
     );
     try {
       return await usersService.postFollow(params);
@@ -129,10 +123,10 @@ export const follow = createAsyncThunk<IFollowed, IIdsParams, AsyncThunkConfig>(
       return rejectWithValue('[follow]: Error');
     } finally {
       dispatch(
-        setFollowingInProgress({ isFetching: false, userID: params.userID })
+        setFollowingInProgress({ isFetching: false, userID: params.userID }),
       );
     }
-  }
+  },
 );
 
 export const unfollow = createAsyncThunk<
@@ -147,7 +141,7 @@ export const unfollow = createAsyncThunk<
     return rejectWithValue('[unfollow]: Error');
   } finally {
     dispatch(
-      setFollowingInProgress({ isFetching: false, userID: params.userID })
+      setFollowingInProgress({ isFetching: false, userID: params.userID }),
     );
   }
 });

@@ -1,41 +1,43 @@
 .wrapper {
-	position: relative;
+  position: relative;
 }
 
 .label {
-	font-size: 15px;
-	line-height: 1.2;
-	margin: 0 0 10px 10px;
+  margin: 0 0 10px 10px;
+  font-size: 15px;
+  line-height: 1.2;
 }
 
 .input {
-	border: 1px solid #757575;
-	padding: 10px;
-	border-radius: 10px;
-	font-size: 16px;
-	width: 100%;
+  width: 100%;
+  margin: 0 0 20px 0;
+  padding: 10px;
 
-	background: #eeeeee;
+  font-size: 16px;
 
-	transition: all 0.3s ease;
-	margin: 0 0 20px 0;
+  background: #EEEEEE;
+  border: 1px solid #757575;
+  border-radius: 10px;
+
+  transition: all 0.3s ease;
 }
 
 .input:focus {
-	background: #fcfcfc;
-	border: 1px solid #070707;
+  background: #FCFCFC;
+  border: 1px solid #070707;
 }
 
 .input.error {
-	border: 1px solid #e70045;
-	box-shadow: 0 0 20px -10px #e70045;
+  border: 1px solid #E70045;
+  box-shadow: 0 0 20px -10px #E70045;
 }
 
 .errorMes {
-	color: #e70045;
-	font-size: 14px;
-	font-weight: 500;
-	position: absolute;
-	bottom: 0px;
-	left: 10px;
+  position: absolute;
+  bottom: 0px;
+  left: 10px;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #E70045;
 }

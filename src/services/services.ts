@@ -1,34 +1,30 @@
 import axios from 'axios';
-import * as cookie from './cookie';
 import { sha256 } from 'crypto-hash';
+
 import {
   ISetLikesParams,
   ILikes,
   ISetColor,
   IRegisterParams,
   ITotalCount,
-} from './servicesTypes';
-import {
   ISaveProfileInfo,
   IIdsParams,
   ISetPostParams,
-  IGetFollowParams,
   IReducedUser,
   IGetSubsParams,
-} from './servicesTypes';
-import {
   ILoginParams,
   IGetMesParams,
   ISetMesParams,
   IUpdateStatusParams,
-} from './servicesTypes';
-import {
   IAuthData,
   IFollowed,
   IMessage,
   IPost,
   IProfile,
 } from './servicesTypes';
+
+import * as cookie from './cookie';
+import { MAIN_COLOR } from '../common/constants';
 
 const baseURL = 'http://localhost:3011/';
 // const baseURL = 'https://socnetserver-az1kgo.b4a.run/';
@@ -40,32 +36,31 @@ axios.defaults.withCredentials = false;
 
 export const authService = {
   getAuth: async () => {
-    let id = cookie.getCookie('id');
-    let token = cookie.getCookie('token');
-
+    const id = cookie.getCookie('id');
+    const token = cookie.getCookie('token');
     const response = await axios.get<IAuthData[]>(`auth?id=${id}&_limit=1`);
 
-    return response.data[0].token !== token
-      ? ({ id: -1 } as IAuthData)
-      : response.data[0];
+    return response.data[0].token === token && response.data[0];
   },
   login: async ({ email, password, rememberMe = false }: ILoginParams) => {
     const response = await axios.get<IAuthData[]>(
       `auth?email=${email}&password=${await sha256(password)}`,
     );
 
-    if (response.data[0]) {
-      const token = cookie.createToken();
-      const auth = await axios.patch<IAuthData>(`auth/${response.data[0].id}`, {
-        token,
-      });
-      const delay = rememberMe ? 3600 * 24 * 30 : 3600 * 24;
+    if (!response.data[0]) {
+      return false;
+    }
 
-      cookie.setCookie('token', token, delay);
-      cookie.setCookie('id', `${response.data[0].id}`, delay);
+    const token = cookie.createToken();
+    const auth = await axios.patch<IAuthData>(`auth/${response.data[0].id}`, {
+      token,
+    });
+    const delay = rememberMe ? 3600 * 24 * 30 : 3600 * 24;
 
-      return auth.data;
-    } else return { id: -1 } as IAuthData;
+    cookie.setCookie('token', token, delay);
+    cookie.setCookie('id', `${response.data[0].id}`, delay);
+
+    return auth.data;
   },
   logout: async () => {
     const response = await axios.get<IAuthData[]>(
@@ -74,14 +69,15 @@ export const authService = {
     const auth = await axios.patch<IAuthData>(`auth/${response.data[0].id}`, {
       token: '',
     });
+
     cookie.deleteCookie('token');
+
     return auth.data;
   },
   register: async (params: IRegisterParams) => {
     const { age, fullName, name, email, login, password } = params;
 
     const check_email = await axios.get<IAuthData[]>(`auth?email=${email}`);
-
     if (check_email.data.length > 0) {
       return 'This email is already registered';
     }
@@ -109,15 +105,13 @@ export const authService = {
       login,
       password: await sha256(password),
       token: '',
-      main_color: '#AFDAFC',
+      main_color: MAIN_COLOR,
     });
 
     const totalCount = await axios.get<ITotalCount>(`totalCount`);
-
-    if (totalCount)
-      await axios.patch<ITotalCount>(`totalCount`, {
-        value: totalCount.data.value + 1,
-      });
+    await axios.patch<ITotalCount>(`totalCount`, {
+      value: totalCount.data.value + 1,
+    });
 
     return true;
   },
@@ -126,7 +120,7 @@ export const authService = {
       main_color,
     });
 
-    return response.data;
+    return response.data.main_color;
   },
 };
 
@@ -143,8 +137,7 @@ export const usersService = {
   },
   getFollows: async (authID = 0, userID = 0) => {
     const response = await axios.get<IFollowed[]>(
-      baseURL +
-        `followed?authID=${authID}${userID !== 0 ? '&userID=' + userID : ''}`,
+      `followed?authID=${authID}${userID !== 0 ? '&userID=' + userID : ''}`,
     );
     return response.data;
   },
@@ -152,15 +145,10 @@ export const usersService = {
     const data = await axios.get<IFollowed[]>(
       `followed?authID=${authID}&userID=${userID}`,
     );
-    const response = await axios.delete<IFollowed>(
-      `followed/${data.data[0].id}`,
-    );
 
-    if (response.status === 200) {
-      return data.data[0];
-    } else {
-      return response.data;
-    }
+    await axios.delete<IFollowed>(`followed/${data.data[0].id}`);
+
+    return data.data[0];
   },
   postFollow: async ({ authID, userID }: IIdsParams) => {
     const response = await axios.post<IFollowed>(`followed`, {
@@ -186,8 +174,7 @@ export const messagesService = {
         return a.id - b.id;
       });
 
-    if (allMessages.length !== 0) return allMessages;
-    else return [];
+    return allMessages;
   },
   setMessage: async ({ authID, withID, message }: ISetMesParams) => {
     const response = await axios.post<IMessage>(`messages`, {
@@ -199,13 +186,9 @@ export const messagesService = {
     return response.data;
   },
   deleteMessage: async (id: number) => {
-    const response = await axios.delete(`messages/${id}`);
+    await axios.delete(`messages/${id}`);
 
-    if (response.status === 200) {
-      return id;
-    } else {
-      return null;
-    }
+    return id;
   },
   getDialogs: async (authID: number) => {
     const fromMessages = await axios.get<IMessage[]>(
@@ -215,10 +198,11 @@ export const messagesService = {
 
     let dialogs: number[] = Array.prototype
       .concat(
-        fromMessages.data.sort((a, b) => b.id - a.id).map(el => el.withID),
-        toMessages.data.sort((a, b) => b.id - a.id).map(el => el.fromID),
+        fromMessages.data.map(el => el.withID),
+        toMessages.data.map(el => el.fromID),
       )
-      .filter((value, index, array) => array.indexOf(value) === index);
+      .filter((value, index, array) => array.indexOf(value) === index)
+      .sort((a, b) => b.id - a.id);
 
     if (dialogs.length === 0) return [];
 
@@ -226,13 +210,7 @@ export const messagesService = {
       `users?id=${dialogs.join('&id=')}`,
     );
 
-    let response: IReducedUser[] = [];
-    dialogs.forEach(id => {
-      const item = data.find(user => user.id === id);
-      if (item) response.push(item);
-    });
-
-    return response;
+    return data;
   },
 };
 
@@ -248,7 +226,7 @@ export const profileService = {
     });
     return response.data.status;
   },
-  saveProfileInfoAPI: async ({ authID, data }: ISaveProfileInfo) => {
+  updateProfileInfo: async ({ authID, data }: ISaveProfileInfo) => {
     const response = await axios.patch<IProfile>(`users/${authID}`, {
       ...data,
     });
@@ -271,24 +249,16 @@ export const profileService = {
     return response.data;
   },
   removePost: async (id: number) => {
-    const response = await axios.delete(`posts/${id}`);
+    await axios.delete(`posts/${id}`);
 
-    if (response.status === 200) {
-      return id;
-    } else {
-      return null;
-    }
+    return id;
   },
-  getFollow: async ({ userID, authID }: IGetFollowParams) => {
+  getFollow: async ({ userID, authID }: IIdsParams) => {
     const response = await axios.get<IFollowed[]>(
       `followed?authID=${authID}&userID=${userID}`,
     );
 
-    if (response.data.length > 0) {
-      return true;
-    }
-
-    return false;
+    return response.data.length > 0;
   },
 };
 
@@ -317,9 +287,7 @@ export const subServices = {
 
 export const likesServices = {
   getUserLikes: async (userID: number) => {
-    const response = await axios.get<ILikes[]>(`likes?userID=${userID}`);
-
-    return response.data;
+    return (await axios.get<ILikes[]>(`likes?userID=${userID}`)).data;
   },
   setLike: async ({ postID, userID, likesCount }: ISetLikesParams) => {
     const response = await axios.post<ILikes>(`likes`, {
@@ -337,16 +305,12 @@ export const likesServices = {
     const { data } = await axios.get<ILikes[]>(
       `likes?postID=${postID}&userID=${userID}`,
     );
-    const response = await axios.delete(`likes/${data[0].id}`);
+    await axios.delete(`likes/${data[0].id}`);
 
     await axios.patch(`posts/${postID}`, {
       likes: likesCount - 1,
     });
 
-    if (response.status === 200) {
-      return data[0];
-    } else {
-      return null;
-    }
+    return data[0];
   },
 };

@@ -2,6 +2,9 @@ import React, { FC } from 'react';
 
 import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
+import { AiFillLike } from 'react-icons/ai';
+import { BiRepost } from 'react-icons/bi';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
 
 import { IPost, ISetLikesParams } from '../../../../services/servicesTypes';
 import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
@@ -11,13 +14,9 @@ import {
 } from '../../../../store/reducers/profileSlice';
 import { deleteLike, setLike } from 'store/reducers/likesSlice';
 import LoaderCircular from '../../../../components/LoaderCircular/LoaderCircular';
-
-import { AiFillLike } from 'react-icons/ai';
-import { BiRepost } from 'react-icons/bi';
-import { RiDeleteBin5Fill } from 'react-icons/ri';
+import Avatar from 'components/Avatar/Avatar';
 
 import style from './Post.module.css';
-import Avatar from 'components/Avatar/Avatar';
 
 type PropsType = {
   userInfo: { userName: string; userPhoto: string | null };

@@ -1,8 +1,9 @@
 import React, { FC, MouseEvent } from 'react';
 
-import style from './ContextMenu.module.css';
 import { createPortal } from 'react-dom';
 import { useOnClickOutside } from 'common/hooks';
+
+import style from './ContextMenu.module.css';
 
 export interface IContextMenuItem {
   name: string;
@@ -27,7 +28,11 @@ const ContextMenu: FC<IContextMenu> = ({ pos, data, menuOpenHandler }) => {
     <div ref={triggerRef} style={{ ...pos }} className={style.wrapper}>
       <ul className={style.list}>
         {data.map(element => (
-          <li key={element.name} onClick={element.onClick} className={style.item}>
+          <li
+            key={element.name}
+            onClick={element.onClick}
+            className={style.item}
+          >
             {element.name}
           </li>
         ))}

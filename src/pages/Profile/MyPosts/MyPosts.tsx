@@ -1,18 +1,18 @@
 import React, { FC, useEffect } from 'react';
+
 import { useAppDispatch, useAppSelector } from '../../../common/hooks';
 import {
   postsActionStatusEnum,
   setPosts,
 } from '../../../store/reducers/profileSlice';
+import { getLikes } from 'store/reducers/likesSlice';
+import LoaderCircular from 'components/LoaderCircular/LoaderCircular';
+import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 import NewPostForm from './NewPostForm/NewPostForm';
 import Post from './Post/Post';
-
 import pensiveIcon from '../../../assets/img/pensive-face.png';
 
 import style from './MyPosts.module.css';
-import LoaderCircular from 'components/LoaderCircular/LoaderCircular';
-import { getLikes } from 'store/reducers/likesSlice';
-import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 
 type PropsType = {};
 

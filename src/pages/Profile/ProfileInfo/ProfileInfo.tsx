@@ -2,14 +2,13 @@ import React, { FC } from 'react';
 
 import { useAppSelector } from '../../../common/hooks';
 import { useNavigate, Link } from 'react-router-dom';
+import { IoSettingsOutline } from 'react-icons/io5';
+import { AiOutlineMessage } from 'react-icons/ai';
 
 import { IProfile } from './../../../services/servicesTypes';
 import ProfileStatus from './ProfileStatus';
 import FollowButton from 'components/FollowButton/FollowButton';
 import Avatar from 'components/Avatar/Avatar';
-
-import { IoSettingsOutline } from 'react-icons/io5';
-import { AiOutlineMessage } from 'react-icons/ai';
 
 import style from './ProfileInfo.module.css';
 

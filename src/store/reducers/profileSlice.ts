@@ -1,4 +1,12 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  isFulfilled,
+  isRejected,
+  PayloadAction,
+} from '@reduxjs/toolkit';
+import isEqual from 'lodash.isequal';
+
 import {
   IPost,
   IProfile,
@@ -7,7 +15,8 @@ import {
 } from '../../services/servicesTypes';
 import { profileService, subServices } from '../../services/services';
 import { ISaveProfileInfo, ISetPostParams } from '../../services/servicesTypes';
-import { setLoading, setNotice } from 'store/reducers/appSlice';
+
+import { setLoading, setNotice } from './appSlice';
 import { follow, unfollow } from './usersSlice';
 import { deleteLike, setLike } from './likesSlice';
 
@@ -52,13 +61,17 @@ export const profileSlice = createSlice({
     builder
       .addCase(setProfile.fulfilled, (state, action) => {
         state.profileInfo = action.payload.user;
-        if (state.profileInfo)
-          state.profileInfo.followed = action.payload.followed;
         state.subscribersCount = action.payload.subscribersCount;
         state.subscriptionsCount = action.payload.subscriptionsCount;
+
+        if (!state.profileInfo) return;
+
+        state.profileInfo.followed = action.payload.followed;
       })
       .addCase(updateStatus.fulfilled, (state, action) => {
-        if (state.profileInfo) state.profileInfo.status = action.payload;
+        if (!state.profileInfo) return;
+
+        state.profileInfo.status = action.payload;
       })
       .addCase(saveProfileInfo.fulfilled, (state, action) => {
         state.profileInfo = action.payload;
@@ -78,10 +91,6 @@ export const profileSlice = createSlice({
       })
       .addCase(setPosts.fulfilled, (state, action) => {
         state.postsData = action.payload;
-        state.postsActionStatus = postsActionStatusEnum.Idle;
-      })
-      .addCase(setPosts.rejected, (state, action) => {
-        state.postsActionStatus = postsActionStatusEnum.Idle;
       })
 
       .addCase(addPost.pending, (state, action) => {
@@ -89,29 +98,23 @@ export const profileSlice = createSlice({
       })
       .addCase(addPost.fulfilled, (state, action) => {
         state.postsData?.push(action.payload);
-        state.postsActionStatus = postsActionStatusEnum.Idle;
-      })
-      .addCase(addPost.rejected, (state, action) => {
-        state.postsActionStatus = postsActionStatusEnum.Idle;
       })
 
       .addCase(removePost.pending, (state, action) => {
         state.postsActionStatus = postsActionStatusEnum.Removing;
       })
       .addCase(removePost.fulfilled, (state, action) => {
-        if (state.postsData && action.payload)
-          state.postsData = state.postsData.filter(
-            el => el.id !== action.payload,
-          );
-        state.postsActionStatus = postsActionStatusEnum.Idle;
-      })
-      .addCase(removePost.rejected, (state, action) => {
-        state.postsActionStatus = postsActionStatusEnum.Idle;
+        if (!action.payload) return;
+
+        state.postsData =
+          state.postsData &&
+          state.postsData.filter(el => el.id !== action.payload);
       })
 
       .addCase(setLike.fulfilled, (state, action) => {
-        if (state.postsData) {
-          state.postsData = state.postsData.map(post =>
+        state.postsData =
+          state.postsData &&
+          state.postsData.map(post =>
             action.payload.postID === post.id
               ? {
                   ...post,
@@ -119,11 +122,13 @@ export const profileSlice = createSlice({
                 }
               : post,
           );
-        }
       })
       .addCase(deleteLike.fulfilled, (state, action) => {
-        if (state.postsData) {
-          state.postsData = state.postsData.map(post =>
+        if (!action.payload) return;
+
+        state.postsData =
+          state.postsData &&
+          state.postsData.map(post =>
             action.payload?.postID === post.id
               ? {
                   ...post,
@@ -131,7 +136,13 @@ export const profileSlice = createSlice({
                 }
               : post,
           );
-        }
+      })
+
+      .addMatcher(isRejected(removePost, addPost, setPosts), state => {
+        state.postsActionStatus = postsActionStatusEnum.Idle;
+      })
+      .addMatcher(isFulfilled(removePost, addPost, setPosts), state => {
+        state.postsActionStatus = postsActionStatusEnum.Idle;
       });
   },
 });
@@ -139,21 +150,21 @@ export const profileSlice = createSlice({
 export const profileReducer = profileSlice.reducer;
 export const { clearProfile, setIsOwner } = profileSlice.actions;
 
-export type SetProfileParamsType = {
+export interface ISetProfileParams {
   authID: number | null;
   userID: number;
-};
+}
 
-export type SetProfileResponseType = {
+export interface ISetProfileResponse {
   user: IProfile;
   followed: boolean;
   subscribersCount: number;
   subscriptionsCount: number;
-};
+}
 
 export const setProfile = createAsyncThunk<
-  SetProfileResponseType,
-  SetProfileParamsType,
+  ISetProfileResponse,
+  ISetProfileParams,
   AsyncThunkConfig
 >(
   'profile/setProfile',
@@ -223,22 +234,19 @@ export const saveProfileInfo = createAsyncThunk<
   async (params, { dispatch, rejectWithValue, getState }) => {
     dispatch(setLoading(true));
     try {
+      let message = '';
       if (params.authID !== params.data.id) {
-        dispatch(
-          setNotice({ noticeMessage: 'User error', noticeType: 'error' }),
-        );
-        return rejectWithValue('User error');
+        message = 'User error';
       }
-      // if (deepEqual(params.data, getState().profile.profileInfo ?? {})) {
-      //   dispatch(
-      //     setNotice({
-      //       noticeMessage: 'Data is not changed',
-      //       noticeType: 'error',
-      //     }),
-      //   );
-      //   return rejectWithValue('Data is not changed');
-      // }
-      return await profileService.saveProfileInfoAPI(params);
+      if (isEqual(params.data, getState().profile.profileInfo ?? {})) {
+        message = 'Data is not changed';
+      }
+      if (message) {
+        dispatch(setNotice({ noticeMessage: message, noticeType: 'error' }));
+        return rejectWithValue(message);
+      }
+
+      return await profileService.updateProfileInfo(params);
     } catch (error) {
       return rejectWithValue('[saveProfileInfo]: Error');
     } finally {
@@ -284,7 +292,7 @@ export const removePost = createAsyncThunk<
   number | null,
   number,
   AsyncThunkConfig
->('profile/removePost', async (id, { dispatch, rejectWithValue }) => {
+>('profile/removePost', async (id, { rejectWithValue }) => {
   try {
     return await profileService.removePost(id);
   } catch (error) {

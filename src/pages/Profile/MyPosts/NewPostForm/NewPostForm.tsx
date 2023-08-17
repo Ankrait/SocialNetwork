@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
+
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+
 import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
 import {
   addPost,
@@ -9,9 +11,9 @@ import {
 } from '../../../../store/reducers/profileSlice';
 import Input from '../../../../components/Input/Input';
 import Button from '../../../../components/Button/Button';
+import LoaderCircular from 'components/LoaderCircular/LoaderCircular';
 
 import style from './NewPostForm.module.css';
-import LoaderCircular from 'components/LoaderCircular/LoaderCircular';
 
 type NewPostDataType = {
   message: string;

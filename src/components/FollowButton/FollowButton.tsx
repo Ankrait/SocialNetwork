@@ -1,11 +1,7 @@
-import React, {
-  ButtonHTMLAttributes,
-  DetailedHTMLProps,
-  FC,
-  ReactNode,
-} from 'react';
+import React, { ButtonHTMLAttributes, DetailedHTMLProps, FC } from 'react';
 
 import cn from 'classnames';
+
 import { useAppSelector, useAppDispatch } from 'common/hooks';
 import { follow, unfollow } from 'store/reducers/usersSlice';
 
@@ -30,30 +26,24 @@ const FollowButton: FC<IFollowButton> = ({
   const authID = useAppSelector(state => state.auth.userID);
   const { followingInProgress } = useAppSelector(state => state.users);
 
-  const onFollowClick = (authID: number, userID: number) => {
-    dispatch(follow({ authID, userID }));
-  };
-  const onUnfollowClick = (authID: number, userID: number) => {
-    dispatch(unfollow({ authID, userID }));
+  if (!authID) return <></>;
+
+  const onClick = (action: 'follow' | 'unfollow') => {
+    const thunk = action === 'follow' ? follow : unfollow;
+    dispatch(thunk({ authID, userID }));
   };
 
-  return authID ? (
+  return (
     <button
       disabled={followingInProgress.includes(userID)}
       className={cn(style.button, className, {
         [style.follow]: !isFollowed,
       })}
-      onClick={() =>
-        isFollowed
-          ? onUnfollowClick(authID, userID)
-          : onFollowClick(authID, userID)
-      }
+      onClick={() => (isFollowed ? onClick('unfollow') : onClick('follow'))}
       {...props}
     >
       {isFollowed ? <>Unfollow</> : <>Follow</>}
     </button>
-  ) : (
-    <></>
   );
 };
 

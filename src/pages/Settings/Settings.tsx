@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { IoIosArrowDown } from 'react-icons/io';
 import { useAppDispatch, useAppSelector } from 'common/hooks';
+import { setColor } from 'store/reducers/authSlice';
 
 import style from './Settings.module.css';
-import { setColor } from 'store/reducers/authSlice';
 
 const colors = [
   '#AFDAFC',

@@ -1,21 +1,21 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
+
 import {
   clearProfile,
   setIsOwner,
   setProfile,
 } from '../../store/reducers/profileSlice';
-
+import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import cloudFace from '../../assets/img/face-in-clouds.png';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import MyPosts from './MyPosts/MyPosts';
 import ProfileForm from './ProfileForm/ProfileForm';
 import LoaderCircular from '../../components/LoaderCircular/LoaderCircular';
+import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 
 import style from './Profile.module.css';
-import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
 
 const Profile: FC = (): JSX.Element => {
   const { id } = useParams();

@@ -1,18 +1,18 @@
 import React, { FC, useEffect, useRef } from 'react';
 
-import { useAppDispatch, useAppSelector } from 'common/hooks';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { BsPeople } from 'react-icons/bs';
 
-import pointLeft from '../../../assets/img/pointing-left.png';
+import { useAppDispatch, useAppSelector } from 'common/hooks';
+import { clearMessages, setMes, setWithID } from 'store/reducers/messagesSlice';
 import MessageForm from './MessageForm/MessageForm';
 import Message from './MessageItem/MessageItem';
-import { clearMessages, setMes, setWithID } from 'store/reducers/messagesSlice';
-
-import style from './MessagesList.module.css';
 import Avatar from 'components/Avatar/Avatar';
 import LoaderCircular from 'components/LoaderCircular/LoaderCircular';
 import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
+import pointLeft from '../../../assets/img/pointing-left.png';
+
+import style from './MessagesList.module.css';
 
 interface IMessagesList {
   setMobileDialogsOpen: (value: boolean) => void;

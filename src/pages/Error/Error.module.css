@@ -1,36 +1,40 @@
 .wrapper {
-	height: 100vh;
-	color: rgb(19, 19, 19);
-	font-size: 20px;
-	margin: 0 auto;
-	text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  height: 100vh;
+  margin: 0 auto;
 
-	font-weight: 500;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgb(19, 19, 19);
+  text-align: center;
 }
 
 .wrapper a {
-	color: #d14753;
-	position: relative;
+  position: relative;
+  color: #D14753;
 }
 
 .wrapper a:before {
-	content: "";
-	position: absolute;
-	bottom: 0;
-	height: 2px;
-	width: 0;
-	left: 50%;
-	transform: translateX(-50%);
-	transition: width 0.2s ease-in-out;
-	background: #d14753;
+  content: "";
+
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 0;
+  height: 2px;
+
+  background: #D14753;
+
+  transition: width 0.2s ease-in-out;
 }
 
 .wrapper a:hover::before {
-	color: #d14753;
-	width: 100%;
+  width: 100%;
+  color: #D14753;
 }

@@ -1,11 +1,11 @@
 import React, { FC, useEffect } from 'react';
+
+import ReactPaginate from 'react-paginate';
+import { BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
+
 import { useAppDispatch, useAppSelector } from '../../common/hooks';
 import { requestUsers, setCurrentPage } from '../../store/reducers/usersSlice';
 import UserItem from './UserItem/UserItem';
-
-import { BsArrowBarLeft, BsArrowBarRight } from 'react-icons/bs';
-
-import ReactPaginate from 'react-paginate';
 
 import style from './Users.module.css';
 

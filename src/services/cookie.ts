@@ -4,50 +4,40 @@ export const getCookie = (name: string): string | undefined => {
       '(?:^|; )' +
         // eslint-disable-next-line no-useless-escape
         name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
-        '=([^;]*)'
-    )
+        '=([^;]*)',
+    ),
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
 
-export const setCookie = (name: string, value: string, options: any): void => {
-  options = {
+export const setCookie = (name: string, value: string, delay: number): void => {
+  const options: { [key: string]: string } = {
     path: '/',
-    // при необходимости добавьте другие значения по умолчанию
-    ...options,
+    'max-age': delay.toString(),
   };
 
-  if (options.expires instanceof Date) {
-    options.expires = options.expires.toUTCString();
-  }
-
-  let updatedCookie =
-    encodeURIComponent(name) + '=' + encodeURIComponent(value);
+  let cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
 
   for (let optionKey in options) {
-    updatedCookie += '; ' + optionKey;
-    let optionValue = options[optionKey];
-    if (optionValue !== true) {
-      updatedCookie += '=' + optionValue;
-    }
+    cookie += '; ' + optionKey + '=' + options[optionKey];
   }
 
-  document.cookie = updatedCookie;
+  document.cookie = cookie;
 };
 
 export const deleteCookie = (name: string): void => {
-  setCookie(name, '', {
-    'max-age': -1,
-  });
+  setCookie(name, '', -1);
 };
 
 export const createToken = (len = 15): string => {
-  let symbols =
+  const symbols =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'.split('');
-  let token = [];
+  const token = [];
+
   for (let i = 0; i < len; i++) {
-    let symbol = +(Math.random() * (symbols.length - 1)).toFixed(0);
-    token[i] = symbols[symbol];
+    const symbol = +(Math.random() * (symbols.length - 1)).toFixed(0);
+    token.push(symbols[symbol]);
   }
+
   return token.join('');
 };

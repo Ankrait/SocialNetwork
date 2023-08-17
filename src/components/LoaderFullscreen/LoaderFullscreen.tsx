@@ -1,16 +1,19 @@
 import React, { FC } from 'react';
-// @ts-ignore
-import { ReactComponent as LoaderSvg } from './../../assets/img/loading.svg';
+
+import { createPortal } from 'react-dom';
 import cn from 'classnames';
 
+import { ReactComponent as LoaderSvg } from './../../assets/img/loading.svg';
+
 import style from './LoaderFullscreen.module.css';
-import { createPortal } from 'react-dom';
 
-type IProps = {
+interface ILoaderFullscreen {
   className?: string;
-};
+}
 
-const LoaderFullscreen: FC<IProps> = ({ className }): JSX.Element => {
+const LoaderFullscreen: FC<ILoaderFullscreen> = ({
+  className,
+}): JSX.Element => {
   return createPortal(
     <div className={cn(style.wrapper, className)}>
       <LoaderSvg />

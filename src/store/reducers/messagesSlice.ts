@@ -1,5 +1,5 @@
-import { messagesService } from '../../services/services';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import {
   IGetMesParams,
   ISetMesParams,
@@ -7,6 +7,7 @@ import {
   IMessage,
   AsyncThunkConfig,
 } from '../../services/servicesTypes';
+import { messagesService } from '../../services/services';
 import { setLoading } from './appSlice';
 
 interface IMessagesInitialState {
@@ -109,7 +110,7 @@ export const getDialogs = createAsyncThunk<
   IReducedUser[],
   number,
   AsyncThunkConfig
->('messages/getDialogs', async (authID, { dispatch, rejectWithValue }) => {
+>('messages/getDialogs', async (authID, { rejectWithValue }) => {
   try {
     return await messagesService.getDialogs(authID);
   } catch (error) {

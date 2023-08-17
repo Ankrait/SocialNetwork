@@ -1,112 +1,118 @@
 .wrapper {
-    padding: 15px;
-    border-radius: 10px;
-    margin: 40px 0 0 0;
+  position: relative;
 
-    border: 1px solid rgb(170, 170, 170);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin: 40px 0 0 0;
+  padding: 15px;
 
-    position: relative;
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: 10px;
 }
 
 .removePost {
-    cursor: pointer;
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    top: 10px;
-    right: 10px;
+  cursor: pointer;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
 }
 
 .removePost:hover svg {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .image {
-    margin: 15px 0 0 0;
-    width: 60%;
-    height: 100%;
-    max-height: max(70vh, 300px);
-    overflow: hidden;
+  overflow: hidden;
+
+  width: 60%;
+  height: 100%;
+  max-height: max(70vh, 300px);
+  margin: 15px 0 0 0;
 }
 
 .image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .text {
-    margin: 15px 0 0 0;
-    max-width: 600px;
-    word-wrap: break-word;
+  max-width: 600px;
+  margin: 15px 0 0 0;
+  word-wrap: break-word;
 }
 
 .user {
-    width: 100%;
-    flex: 0 0 50px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+  display: flex;
+  flex: 0 0 50px;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 100%;
 }
 
 .userImage {
-    flex: 0 0 40px;
-    height: 40px;
-    overflow: hidden;
-    border-radius: 50%;
+  overflow: hidden;
+  flex: 0 0 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 .userName {
-    margin: 0 0 0 10px;
+  margin: 0 0 0 10px;
 }
 
 .stats {
-    margin: 20px 0 0 0;
-    width: 100%;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    align-items: center;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+
+  width: 100%;
+  margin: 20px 0 0 0;
 }
 
 .statsItem {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  cursor: pointer;
 
-    text-align: center;
-    vertical-align: center;
-    color: #111;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
+  color: #111;
+  text-align: center;
+  vertical-align: center;
+
+  transition: transform 0.2s ease-in-out;
 }
 
 .statsItem.active {
-    color: red;
+  color: red;
 }
 
 .statsItem.disabled {
-    opacity: 0.6;
-    pointer-events: none;
-    cursor: default;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.6;
 }
 
 
 .statsItem:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 @media only screen and (max-width: 768px) {
-    .wrapper {
-        margin: 20px 0 0 0;
-    }
+  .wrapper {
+    margin: 20px 0 0 0;
+  }
 }

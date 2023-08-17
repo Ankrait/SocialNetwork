@@ -8,4 +8,3 @@ export const LoaderLinear = (): JSX.Element => {
     document.querySelector('body') as HTMLElement,
   );
 };
- 

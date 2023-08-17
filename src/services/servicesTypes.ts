@@ -32,11 +32,8 @@ export interface IProfile {
   followed?: boolean;
 }
 
-export interface IReducedUser {
-  id: number;
-  name: string;
-  photoURL: string | null;
-}
+export interface IReducedUser
+  extends Pick<IProfile, 'id' | 'name' | 'photoURL'> {}
 
 export interface ITotalCount {
   value: number;
@@ -66,9 +63,7 @@ export type AsyncThunkConfig = {
   rejectedMeta?: unknown;
 };
 
-export interface ILoginParams {
-  email: string;
-  password: string;
+export interface ILoginParams extends Pick<IAuthData, 'email' | 'password'> {
   rememberMe?: boolean;
 }
 
@@ -96,16 +91,8 @@ export interface IIdsParams {
   userID: number;
 }
 
-export interface ISetPostParams {
-  message: string | null;
-  img_link: string | null;
-  userID: number;
-}
-
-export interface IGetFollowParams {
-  userID: number;
-  authID: number;
-}
+export interface ISetPostParams
+  extends Pick<IPost, 'img_link' | 'message' | 'userID'> {}
 
 export type SubType = 'Subscriptions' | 'Subscribers';
 
@@ -124,17 +111,12 @@ export interface ISetLikesParams extends Omit<ILikes, 'id'> {
   likesCount: number;
 }
 
-export interface ISetColor {
+export interface ISetColor extends Pick<IAuthData, 'main_color'> {
   authID: number;
-  main_color: string;
 }
 
-export interface IRegisterParams {
-  email: string;
-  login: string;
-  password: string;
+export interface IRegisterParams
+  extends Pick<IAuthData, 'email' | 'login' | 'password'>,
+    Pick<IProfile, 'name' | 'fullName' | 'age'> {
   confirm_password: string;
-  fullName: string;
-  name: string;
-  age: number;
 }

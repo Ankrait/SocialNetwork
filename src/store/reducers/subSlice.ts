@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { subServices } from '../../services/services';
-import { AsyncThunkConfig, IGetSubsParams } from '../../services/servicesTypes';
-import { IReducedUser } from '../../services/servicesTypes';
-import { setLoading } from 'store/reducers/appSlice';
+import {
+  AsyncThunkConfig,
+  IGetSubsParams,
+  IReducedUser,
+} from '../../services/servicesTypes';
+import { setLoading } from './appSlice';
 import { follow, unfollow } from './usersSlice';
 
 interface ISubInitialState {
@@ -19,7 +22,12 @@ const initialState: ISubInitialState = {
 export const subSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    clearSubs: state => {
+      state.users = [];
+      state.unfollowedUserIDs = [];
+    },
+  },
   extraReducers: builder => {
     builder.addCase(getSubs.fulfilled, (state, action) => {
       state.users = action.payload;
@@ -41,7 +49,7 @@ export const subSlice = createSlice({
 });
 
 export const subReducer = subSlice.reducer;
-//export const {  } = subSlice.actions;
+export const { clearSubs } = subSlice.actions;
 
 export const getSubs = createAsyncThunk<
   IReducedUser[],

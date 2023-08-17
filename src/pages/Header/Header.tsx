@@ -1,17 +1,17 @@
 import React, { FC, useEffect, useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import { TbMessages } from 'react-icons/tb';
+import { GrClose } from 'react-icons/gr';
 import cn from 'classnames';
 
 import { useAppSelector, useAppDispatch } from '../../common/hooks';
 import { logout } from '../../store/reducers/authSlice';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { GrClose } from 'react-icons/gr';
-import { TbMessages } from 'react-icons/tb';
+import { setMobileMenuOpen } from 'store/reducers/appSlice';
+import Button from '../../components/Button/Button';
 
 import style from './Header.module.css';
-import Button from '../../components/Button/Button';
-import { setMobileMenuOpen } from 'store/reducers/appSlice';
 
 const Header: FC = (): JSX.Element => {
   const [scrollTop, setScrollTop] = useState(0);

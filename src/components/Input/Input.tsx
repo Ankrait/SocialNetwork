@@ -13,18 +13,17 @@ interface IInput
     HTMLInputElement
   > {
   error?: string;
-  classNameWrapper?: string;
-  className?: string;
+  wrapperClassName?: string;
   label?: string;
 }
 
 const Input = forwardRef<HTMLInputElement, IInput>(
   (
-    { error, classNameWrapper, className, label, ...restProps },
+    { error, wrapperClassName, className, label, ...restProps },
     ref,
   ): JSX.Element => {
     return (
-      <div className={cn(style.wrapper, classNameWrapper)}>
+      <div className={cn(style.wrapper, wrapperClassName)}>
         {label && <p className={style.label}>{label}</p>}
         <input
           className={cn(style.input, className, { [style.error]: !!error })}

@@ -14,10 +14,10 @@ import { useAppDispatch, useAppSelector } from 'common/hooks';
 import Avatar from 'components/Avatar/Avatar';
 import FollowButton from 'components/FollowButton/FollowButton';
 import LoaderCircular from '../../components/LoaderCircular/LoaderCircular';
-
 import faceIcon from '../../assets/img/face-with-monocle.png';
-import style from './Sub.module.css';
 import EmojiMessage from 'components/EmojiMessage/EmojiMessage';
+
+import style from './Sub.module.css';
 
 const Sub: FC = () => {
   const dispatch = useAppDispatch();

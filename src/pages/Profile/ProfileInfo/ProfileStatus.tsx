@@ -6,13 +6,15 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../common/hooks';
-import { updateStatus } from '../../../store/reducers/profileSlice';
+
+import ClickAwayListener from 'react-click-away-listener';
 import { BiSend } from 'react-icons/bi';
 
-import style from './ProfileInfo.module.css';
-import ClickAwayListener from 'react-click-away-listener';
+import { useAppDispatch, useAppSelector } from '../../../common/hooks';
+import { updateStatus } from '../../../store/reducers/profileSlice';
 import LoaderCircular from '../../../components/LoaderCircular/LoaderCircular';
+
+import style from './ProfileInfo.module.css';
 
 type PropsType = {
   isOwner: boolean;

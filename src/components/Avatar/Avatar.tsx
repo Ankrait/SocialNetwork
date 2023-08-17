@@ -7,16 +7,20 @@ import style from './Avatar.module.css';
 
 interface IAvatar {
   wrapperClassName?: string;
-  className?: string;
+  imageClassName?: string;
   photoSrc: string | null;
 }
 
-const Avatar: FC<IAvatar> = ({ wrapperClassName, className, photoSrc }) => {
+const Avatar: FC<IAvatar> = ({
+  wrapperClassName,
+  imageClassName,
+  photoSrc,
+}) => {
   return (
     <div className={cn(wrapperClassName, style.wrapper)}>
       <img
-        className={cn(style.avatar, className)}
-        src={photoSrc && photoSrc !== '' ? photoSrc : userIcon}
+        className={cn(style.avatar, imageClassName)}
+        src={!!photoSrc ? photoSrc : userIcon}
         alt="User"
         onError={e => (e.currentTarget.src = userIcon)}
       />

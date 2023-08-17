@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import { TbInfoHexagon } from 'react-icons/tb';
-
-import style from './NoticePopup.module.css';
-import { useAppDispatch, useAppSelector } from 'common/hooks';
-import { createPortal } from 'react-dom';
-import { setNotice } from 'store/reducers/appSlice';
 
 import cn from 'classnames';
+import { createPortal } from 'react-dom';
+import { TbInfoHexagon } from 'react-icons/tb';
+
+import { useAppDispatch, useAppSelector } from 'common/hooks';
+import { setNotice } from 'store/reducers/appSlice';
+
+import style from './NoticePopup.module.css';
 
 const NoticePopup: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();

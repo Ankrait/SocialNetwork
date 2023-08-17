@@ -1,10 +1,11 @@
 import React, { FC, KeyboardEvent, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
-import { addMes, getDialogs } from '../../../../store/reducers/messagesSlice';
+
 import Input from 'components/Input/Input';
+import { addMes, getDialogs } from '../../../../store/reducers/messagesSlice';
+import { useAppDispatch, useAppSelector } from '../../../../common/hooks';
+import LoaderCircular from 'components/LoaderCircular/LoaderCircular';
 
 import style from './MessageForm.module.css';
-import LoaderCircular from 'components/LoaderCircular/LoaderCircular';
 
 const MessageForm: FC = () => {
   const dispatch = useAppDispatch();

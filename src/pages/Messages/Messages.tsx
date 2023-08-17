@@ -1,8 +1,7 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from 'react';
-// import Preloader from 'my-comp/common/Preloader/Preloader';
-import { useAppDispatch, useAppSelector } from '../../common/hooks';
-import { useNavigate } from 'react-router-dom';
+import React, { FC, useLayoutEffect, useState } from 'react';
 
+import { useAppSelector } from '../../common/hooks';
+import { useNavigate } from 'react-router-dom';
 import MessagesList from './MessagesList/MessagesList';
 import DialogsList from './DialogsList/DialogsList';
 

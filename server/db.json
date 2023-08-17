@@ -40,11 +40,11 @@
       "id": 4,
       "fullName": "Fayzrakhmanovasdasda",
       "name": "Azatt",
-      "age": 22,
+      "age": 20,
       "status": "Front-end",
       "location": {
         "country": "Russia",
-        "city": "Kazan"
+        "city": "Kazann"
       },
       "photoURL": "https://sun9-82.userapi.com/impg/NZ15nTMgoUCSLRkwAw1AYcCnNxaxmLKmg-8A7g/KfYK1dw0ZFw.jpg?size=960x1280&quality=95&sign=2e46f71df6f1c36d50291758c88761c1&type=album",
       "followed": false
@@ -263,8 +263,8 @@
       "email": "az1kgo@mail.ru",
       "login": "Ankrait",
       "password": "1d707811988069ca760826861d6d63a10e8c3b7f171c4441a6472ea58c11711b",
-      "token": "r4Ku1ulGk3XYxqk",
-      "main_color": "#E4717A"
+      "token": "eVBYwMgyfLrv6F5",
+      "main_color": "#AFDAFC"
     },
     {
       "id": 21,
@@ -283,16 +283,6 @@
     },
     {
       "authID": 4,
-      "userID": 2,
-      "id": 4
-    },
-    {
-      "authID": 4,
-      "userID": 1,
-      "id": 5
-    },
-    {
-      "authID": 4,
       "userID": 8,
       "id": 6
     },
@@ -308,13 +298,18 @@
     },
     {
       "authID": 4,
-      "userID": 4,
-      "id": 11
+      "userID": 10,
+      "id": 12
     },
     {
       "authID": 4,
-      "userID": 10,
-      "id": 12
+      "userID": 2,
+      "id": 13
+    },
+    {
+      "authID": 4,
+      "userID": 1,
+      "id": 14
     }
   ],
   "messages": [
@@ -463,12 +458,6 @@
       "id": 30
     },
     {
-      "fromID": 4,
-      "withID": 1,
-      "message": "asdasd",
-      "id": 31
-    },
-    {
       "fromID": 5,
       "withID": 4,
       "message": "asd",
@@ -602,36 +591,6 @@
     },
     {
       "fromID": 4,
-      "withID": 1,
-      "message": "asd",
-      "id": 56
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "asd",
-      "id": 57
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "asd",
-      "id": 58
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "asd",
-      "id": 59
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "sadfkjas[d[pfj'lasdjf'lksadjf'jasd'f'asd;fadsfasdflksadf\\kldsafas'dfk';dslkf';lk';adslkf';lasd';flk'a;sdlkf",
-      "id": 60
-    },
-    {
-      "fromID": 4,
       "withID": 6,
       "message": "k,",
       "id": 61
@@ -668,39 +627,9 @@
     },
     {
       "fromID": 4,
-      "withID": 1,
-      "message": "ljhl",
-      "id": 67
-    },
-    {
-      "fromID": 4,
       "withID": 3,
       "message": "fyi",
       "id": 68
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 69
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 70
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 71
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 72
     },
     {
       "fromID": 4,
@@ -716,153 +645,9 @@
     },
     {
       "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 75
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 76
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 77
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 78
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 79
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 80
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 81
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 82
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "dsafasdf",
-      "id": 83
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "sasd",
-      "id": 84
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "sasd",
-      "id": 85
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "sasd",
-      "id": 86
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "sasd",
-      "id": 87
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "sasd",
-      "id": 88
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "sasd",
-      "id": 89
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "asdasf",
-      "id": 90
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "asdasf\\",
-      "id": 91
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "asdasf\\",
-      "id": 92
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "asdasf\\",
-      "id": 93
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
+      "withID": 2,
       "message": "asdf",
-      "id": 94
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "asdf",
-      "id": 95
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "sadf",
-      "id": 96
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "111",
-      "id": 97
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "rsadasdf",
-      "id": 98
-    },
-    {
-      "fromID": 4,
-      "withID": 1,
-      "message": "lhjl",
-      "id": 99
+      "id": 105
     }
   ],
   "posts": [
@@ -893,14 +678,14 @@
   ],
   "likes": [
     {
-      "postID": 2,
-      "userID": 4,
-      "id": 6
-    },
-    {
       "postID": 1,
       "userID": 4,
       "id": 7
+    },
+    {
+      "postID": 2,
+      "userID": 4,
+      "id": 8
     }
   ]
 }

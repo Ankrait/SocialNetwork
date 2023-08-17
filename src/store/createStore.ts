@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import { appReducer } from './reducers/appSlice';
 import { authReducer } from './reducers/authSlice';
 import { messagesReducer } from './reducers/messagesSlice';

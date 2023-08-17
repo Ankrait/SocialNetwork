@@ -1,70 +1,73 @@
 .dialog {
-	padding: 5px 7px;
-	cursor: pointer;
+  cursor: pointer;
 
-	display: grid;
-	grid-template-columns: 50px 1fr 20px;
+  display: grid;
+  grid-template-columns: 50px 1fr 20px;
+  gap: 10px;
+  align-items: center;
 
-	gap: 10px;
-	align-items: center;
-	border-radius: 10px;
+  padding: 5px 7px;
 
-	transition: background 0.2s ease-in-out;
+  border-radius: 10px;
+
+  transition: background 0.2s ease-in-out;
 }
 
 .dialog:hover {
-	background: rgb(230, 230, 230);
+  background: rgb(230, 230, 230);
 }
 
 .dialog._active {
-	background: #E4717A;
+  background: #E4717A;
 }
 
 .image {
-	flex: 0 0 35px;
-	width: 35px;
-	height: 35px;
+  flex: 0 0 35px;
+  width: 35px;
+  height: 35px;
 }
 
 .name {
-	flex: 1 1 auto;
-	overflow: hidden;
+  overflow: hidden;
+  flex: 1 1 auto;
 }
 
 .extra_action {
-	opacity: 0;
-	cursor: pointer;
+  cursor: pointer;
 
-	align-self: stretch;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  align-self: stretch;
+  justify-content: end;
 
-	display: flex;
-	align-items: center;
-	justify-content: end;
-	gap: 3px;
-	text-align: center;
+  font-size: 24px;
+  text-align: center;
 
-	font-size: 24px;
+  opacity: 0;
 
-	transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .extra_action>span {
-	pointer-events: none;
+  pointer-events: none;
 
-	display: block;
-	flex: 0 0 4px;
-	width: 4px;
-	height: 4px;
-	border-radius: 50%;
-	background: #111;
+  display: block;
+  flex: 0 0 4px;
+
+  width: 4px;
+  height: 4px;
+
+  background: #111;
+  border-radius: 50%;
 }
 
 .dialog:hover .extra_action {
-	opacity: 1;
+  opacity: 1;
 }
 
 @media only screen and (max-width: 910px) {
-	.name {
-		font-size: 16px;
-	}
+  .name {
+    font-size: 16px;
+  }
 }

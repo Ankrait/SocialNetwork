@@ -1,13 +1,17 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
+
 import { authService } from '../../services/services';
 import {
   AsyncThunkConfig,
   ILoginParams,
   IAuthData,
+  ISetColor,
+  IRegisterParams,
 } from '../../services/servicesTypes';
 import { setLoading, setNotice } from './appSlice';
 import { clearLikes } from './likesSlice';
-import { ISetColor, IRegisterParams } from '../../services/servicesTypes';
+import { clearMessages } from './messagesSlice';
+import { clearSubs } from './subSlice';
 
 interface IAuthInitialState {
   userID: number | null;
@@ -31,51 +35,40 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(setAuth.fulfilled, (state, action) => {
-        state.email = action.payload.email;
-        state.login = action.payload.login;
-        state.userID = action.payload.id;
-        state.isAuth = true;
-        state.main_color = action.payload.main_color;
-      })
-      .addCase(setAuth.rejected, state => {
-        state.email = state.login = state.userID = null;
-        state.isAuth = false;
-        state.main_color = '';
-      })
-      .addCase(login.fulfilled, (state, action) => {
-        state.email = action.payload.email;
-        state.login = action.payload.login;
-        state.userID = action.payload.id;
-        state.isAuth = true;
-        state.main_color = action.payload.main_color;
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.email = state.login = state.userID = null;
-        state.isAuth = false;
-        state.main_color = '';
-      })
-      .addCase(logout.fulfilled, (state, action) => {
-        state.email = state.login = state.userID = null;
-        state.isAuth = false;
-        state.main_color = '';
-      })
-
       .addCase(setColor.fulfilled, (state, action) => {
         state.main_color = action.payload;
-      });
+      })
+
+      .addMatcher(
+        isAnyOf(setAuth.fulfilled, login.fulfilled),
+        (state, action) => {
+          state.email = action.payload.email;
+          state.login = action.payload.login;
+          state.userID = action.payload.id;
+          state.main_color = action.payload.main_color;
+          state.isAuth = true;
+        },
+      )
+      .addMatcher(
+        isAnyOf(setAuth.rejected, login.rejected, logout.fulfilled),
+        state => {
+          state.email = state.login = state.userID = null;
+          state.isAuth = false;
+          state.main_color = '';
+        },
+      );
   },
 });
 
 export const authReducer = authSlice.reducer;
-//export const { toggleInfoForm, setResponseError, setLoading, setResponseNotice } = authSlice.actions;
+//export const { * } = authSlice.actions;
 
 export const setAuth = createAsyncThunk<IAuthData, void, AsyncThunkConfig>(
   'auth/setAuth',
   async (_, { rejectWithValue }) => {
     try {
       const response = await authService.getAuth();
-      if (response.id === -1) {
+      if (!response) {
         return rejectWithValue('Not authorized');
       }
       return response;
@@ -93,15 +86,17 @@ export const login = createAsyncThunk<
   dispatch(setLoading(true));
   try {
     const response = await authService.login(params);
-    if (response.id === -1) {
+    if (!response) {
       dispatch(
         setNotice({
           noticeMessage: 'Email or password invalid',
           noticeType: 'error',
         }),
       );
+
       return rejectWithValue('Incorrect data');
     }
+
     return response;
   } catch (error) {
     return rejectWithValue('[login]: Error');
@@ -135,9 +130,9 @@ export const logout = createAsyncThunk<IAuthData, void, AsyncThunkConfig>(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const response = await authService.logout();
-
       dispatch(clearLikes());
-
+      dispatch(clearMessages());
+      dispatch(clearSubs());
       return response;
     } catch (error) {
       return rejectWithValue('[logout]: Error');
@@ -147,11 +142,9 @@ export const logout = createAsyncThunk<IAuthData, void, AsyncThunkConfig>(
 
 export const setColor = createAsyncThunk<string, ISetColor, AsyncThunkConfig>(
   'auth/setColor',
-  async (params, { dispatch, rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await authService.setColor(params);
-
-      return response.main_color;
+      return await authService.setColor(params);
     } catch (error) {
       return rejectWithValue('[setColor]: Error');
     }

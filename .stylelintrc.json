@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "stylelint-config-prettier",
+    "stylelint-config-clean-order"
+  ],
+  "rules": {
+    "indentation": 2,
+    "color-hex-case": "upper",
+    "declaration-property-value-disallowed-list": {
+      "border": []
+    },
+    "property-no-vendor-prefix": null,
+    "block-opening-brace-space-before": "always"
+  }
+}

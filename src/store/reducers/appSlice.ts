@@ -1,4 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import { setAuth } from './authSlice';
 import { AsyncThunkConfig } from '../../services/servicesTypes';
 

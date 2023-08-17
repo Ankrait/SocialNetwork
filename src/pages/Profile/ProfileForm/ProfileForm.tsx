@@ -31,7 +31,7 @@ const schema = yup.object({
     .min(10)
     .max(110)
     .nullable()
-    .transform((_, val) => (val === Number(val) ? val : null)),
+    .transform((val) => (val === Number(val) ? val : null)),
   status: yup.string().max(250, 'Max status length 250'),
   location: yup.object({
     city: yup.string().max(20, 'Max 20 simbols'),

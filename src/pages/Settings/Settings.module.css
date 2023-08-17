@@ -1,90 +1,89 @@
 .wrapper {}
 
 .title {
-	font-weight: 500;
-	font-size: 22px;
+  font-size: 22px;
+  font-weight: 500;
 }
 
 .content {
-	display: flex;
-	align-items: center;
-	gap: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .choose_color {
-	position: relative;
+  position: relative;
 }
 
 .choose_color_block {
-	cursor: pointer;
-	width: 50px;
-	height: 35px;
+  cursor: pointer;
 
-	border-radius: 10px;
-	border: 1px solid #111;
+  width: 50px;
+  height: 35px;
+  padding: 7px;
 
-	padding: 7px;
+  border: 1px solid #111;
+  border-radius: 10px;
 
-	transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .choose_color_block:hover {
-	box-shadow: inset 0 0 8px -3px #111;
+  box-shadow: inset 0 0 8px -3px #111;
 }
 
 .choose_color_block.active {
-	background: rgb(255, 252, 73);
+  background: rgb(255, 252, 73);
 }
 
 .choose_color_header {
-	width: auto;
-	display: grid;
-	align-items: center;
-	grid-template-columns: 36px 20px;
-	gap: 10px;
+  display: grid;
+  grid-template-columns: 36px 20px;
+  gap: 10px;
+  align-items: center;
+
+  width: auto;
 }
 
 .color {
-	width: 100%;
-	height: 100%;
-	border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
 }
 
 .choose_color_menu {
-	position: absolute;
+  position: absolute;
+  top: 105%;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
 
-	top: 105%;
-	left: 50%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 
-	transform: translate3d(-50%, 0, 0);
-
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	gap: 10px;
-
-	animation: open-menu .2s ease-in-out;
+  animation: open-menu .2s ease-in-out;
 }
 
 @keyframes open-menu {
-	0% {
-		opacity: 0;
-		transform: translate3d(-50%, -50%, 0);
-	}
+  0% {
+    transform: translate3d(-50%, -50%, 0);
+    opacity: 0;
+  }
 
-	60% {
-		opacity: 0.4;
-	}
+  60% {
+    opacity: 0.4;
+  }
 
-	100% {
-		opacity: 1;
-		transform: translate3d(-50%, 0, 0);
-	}
+  100% {
+    transform: translate3d(-50%, 0, 0);
+    opacity: 1;
+  }
 }
 
 .arrow {
-	transition: transform 0.2s;
+  transition: transform 0.2s;
 }
 
 .arrow.active {
-	transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }

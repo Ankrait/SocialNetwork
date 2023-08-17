@@ -1,5 +1,11 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { setAuth } from './authSlice';
+import {
+  createAsyncThunk,
+  createSlice,
+  isFulfilled,
+  isPending,
+  isRejected,
+} from '@reduxjs/toolkit';
+
 import {
   AsyncThunkConfig,
   ILikes,
@@ -23,26 +29,35 @@ export const likesSlice = createSlice({
   reducers: {
     clearLikes: state => {
       state.likes = [];
-    },
-    setLikesLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
-    },
+    }
   },
   extraReducers: builder => {
-    builder.addCase(getLikes.fulfilled, (state, action) => {
-      state.likes = action.payload;
-    });
-    builder.addCase(setLike.fulfilled, (state, action) => {
-      state.likes.push(action.payload);
-    });
-    builder.addCase(deleteLike.fulfilled, (state, action) => {
-      state.likes = state.likes.filter(like => like.id !== action.payload?.id);
-    });
+    builder
+      .addCase(getLikes.fulfilled, (state, action) => {
+        state.likes = action.payload;
+      })
+      .addCase(setLike.fulfilled, (state, action) => {
+        state.likes.push(action.payload);
+      })
+      .addCase(deleteLike.fulfilled, (state, action) => {
+        state.likes = state.likes.filter(
+          like => like.id !== action.payload?.id,
+        );
+      })
+      .addMatcher(isPending(getLikes, setLike, deleteLike), state => {
+        state.loading = true;
+      })
+      .addMatcher(isRejected(getLikes, setLike, deleteLike), state => {
+        state.loading = false;
+      })
+      .addMatcher(isFulfilled(getLikes, setLike, deleteLike), state => {
+        state.loading = false;
+      });
   },
 });
 
 export const likesReducer = likesSlice.reducer;
-export const { setLikesLoading, clearLikes } = likesSlice.actions;
+export const { clearLikes } = likesSlice.actions;
 
 export const getLikes = createAsyncThunk<ILikes[], number, AsyncThunkConfig>(
   'likes/getLikes',
@@ -60,13 +75,10 @@ export const setLike = createAsyncThunk<
   ISetLikesParams,
   AsyncThunkConfig
 >('likes/setLike', async (params, { dispatch, rejectWithValue }) => {
-  dispatch(setLikesLoading(true));
   try {
     return await likesServices.setLike(params);
   } catch (error) {
     return rejectWithValue('[setLike]: Error');
-  } finally {
-    dispatch(setLikesLoading(false));
   }
 });
 
@@ -75,12 +87,9 @@ export const deleteLike = createAsyncThunk<
   ISetLikesParams,
   AsyncThunkConfig
 >('likes/deleteLike', async (params, { dispatch, rejectWithValue }) => {
-  dispatch(setLikesLoading(true));
   try {
     return await likesServices.deleteLike(params);
   } catch (error) {
     return rejectWithValue('[deleteLike]: Error');
-  } finally {
-    dispatch(setLikesLoading(false));
   }
 });

@@ -1,35 +1,37 @@
 .button {
-	width: 100%;
-	max-width: 100px;
+  width: 100%;
+  max-width: 100px;
+  padding: 8px 15px;
 
-	padding: 8px 15px;
-	border-radius: 15px;
-	font-size: 16px;
-	font-weight: 500;
+  font-size: 16px;
+  font-weight: 500;
+  color: #111;
 
-	background: transparent;
-	transition: background 0.3s ease;
+  background: transparent;
+  background: #FF5959;
+  border-radius: 15px;
 
-	color: #111;
-	background: #ff5959;
+  transition: background 0.3s ease;
 }
 
 .button:hover {
-	background: #ff5959d0;
+  background: #FF5959D0;
 }
 
 .follow {
-	background: #3abe66;
+  background: #3ABE66;
 }
 
 .follow:hover {
-	background: #3abe66d0;
+  background: #3ABE66D0;
 }
 
 .button:disabled {
-	cursor: default;
-	background: #5a5a5a;
-	color: black;
-	text-decoration: line-through;
-	opacity: 0.8;
+  cursor: default;
+
+  color: black;
+  text-decoration: line-through;
+
+  opacity: 0.8;
+  background: #5A5A5A;
 }

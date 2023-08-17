@@ -1,8 +1,8 @@
 import React, { FC, MouseEvent, useState } from 'react';
 
-import { useAppSelector, useAppDispatch } from '../../../../common/hooks';
 import cn from 'classnames';
 
+import { useAppSelector, useAppDispatch } from '../../../../common/hooks';
 import { IMessage } from '../../../../services/servicesTypes';
 import ContextMenu, {
   IContextMenuPos,
