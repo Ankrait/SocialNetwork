@@ -34,6 +34,7 @@ yarn start
 
 npm start
 ```
+4. Откройте localhost:3000 в браузере
 
 ### Для локального запуска *Backend*
 ```sh
